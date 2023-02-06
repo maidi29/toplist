@@ -1,6 +1,6 @@
 # Toplist online game
 
-### 🎮 https://www.gifit2me.com/ 🎮
+### 🎮  🎮
 
 ## dev
 
