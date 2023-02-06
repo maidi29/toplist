@@ -1,0 +1,6 @@
+<div class="info">
+  Think of an answer that has the value {{myValue}} on a scale from 1 to {{maxValue}} to this topic:
+  <h2>{{question}}</h2>
+</div>
+<textarea placeholder="Add your answer here" [(ngModel)]="text"></textarea>
+<app-button (click)="sendAnswer()">Submit</app-button>

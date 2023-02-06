@@ -1,0 +1,9 @@
+{
+  "name": "toplist",
+  "version": "0.0.0",
+  "private": true,
+  "scripts": {
+    "build": "(cd client && npm ci --legacy-peer-deps && npm run build) && (cd server && npm ci)",
+    "start": "cd server && npm run start"
+  }
+}

@@ -1,0 +1,16 @@
+<app-game-info [players]="players" [activeRound]="activeRound" [numberRounds]="numberRounds"></app-game-info>
+<div class="main-view">
+  <ng-container *ngIf="ownPlayer?.isMaster; else playerView">
+    <ng-container *ngIf="!activeRound; else masterView">
+      <app-before-start-master [roomId]="roomId"></app-before-start-master>
+    </ng-container>
+
+    <ng-template #masterView>
+      <app-master-view></app-master-view>
+    </ng-template>
+  </ng-container>
+
+  <ng-template #playerView>
+    <app-player-view></app-player-view>
+  </ng-template>
+</div>

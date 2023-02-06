@@ -1,0 +1,38 @@
+<div class="master-view">
+  <ng-container *ngIf="state === ViewState.setQuestion">
+    <app-set-question [playersCount]="players?.length"></app-set-question>
+  </ng-container>
+
+  <div class="results">
+    <ng-container *ngIf="state === ViewState.thinkOfAnswer">
+      <app-answering [myValue]="myValue" [maxValue]="players?.length" [question]="activeRound?.question" (sendText)="sendAnswer($event)"></app-answering>
+    </ng-container>
+    <ng-container *ngIf="state === ViewState.waitForOthers">
+      <div class="wait">
+        <div>Wait until all other players have submitted an answer and you can start revealing them</div>
+        <img src="https://media4.giphy.com/media/pFZTlrO0MV6LoWSDXd/200w.gif" width="200" alt="wait"/>
+      </div>
+    </ng-container>
+    <ng-container *ngIf="state === ViewState.answersReveal">
+        <div class="answers">
+          <ng-container *ngFor="let answer of activeRound?.answers">
+            <div class="container" [ngClass]="{'selected': selectedWinner === answer.playerName}">
+              <app-flip-card [flipped]="activeRound?.flippedAnswers?.has(answer.playerName) ?? false" (click)="flipCard(answer.playerName)">
+                <div front class="hint">{{answer.playerName}} Click to reveal</div>
+                <div back>{{answer.text}} {{answer.value}}</div>
+              </app-flip-card>
+            </div>
+          </ng-container>
+        </div>
+        <div *ngIf="((activeRound?.flippedAnswers?.size || 0) >= (players?.length || 1)-1)">
+          Drag and drop the answers so they have the correct order on the given scale.
+        </div>
+    </ng-container>
+    <ng-container *ngIf="state === ViewState.winnerDisplay">
+      <app-button (click)="passToNextMaster()">
+        {{(activeRound?.index || 0) >= (numberRounds || 1) ? 'Results' : 'Next Round!'}}
+      </app-button>
+    </ng-container>
+  </div>
+
+</div>

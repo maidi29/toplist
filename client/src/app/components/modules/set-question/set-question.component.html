@@ -1,0 +1,20 @@
+<div class="set-question">
+  <div class="create-container">
+    <div>Create a question and a scale:</div>
+    <div>
+      <app-input [(ngModel)]="question" (keydown.enter)="setQuestion(question)"></app-input>
+      From 1 = <app-input [(ngModel)]="from" ></app-input>
+      to {{ playersCount }} = <app-input [(ngModel)]="to"></app-input>
+      <app-button (click)="setQuestion(question)">
+        Submit
+      </app-button>
+    </div>
+  </div>
+  <div class="choose-container">
+    <div>Or choose from these topics:</div>
+    <div class="suggestions">
+      <app-card *ngFor="let question of exampleQuestions" (click)="setQuestion(question)">{{question}}</app-card>
+    </div>
+    <app-button [secondary]="true" (click)="exampleQuestions = getNewRandomQuestions()">Get new topics</app-button>
+  </div>
+</div>

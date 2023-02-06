@@ -1,0 +1,31 @@
+<ng-container *ngIf="state === ViewState.noQuestion">
+  <div class="info wait">
+    <div>Wait until <strong>{{master}}</strong> sets a question and scale</div>
+    <img src="https://media4.giphy.com/media/pFZTlrO0MV6LoWSDXd/200w.gif" width="200" alt="wait"/>
+  </div>
+</ng-container>
+
+<ng-container *ngIf="state === ViewState.thinkOfAnswer">
+<app-answering [myValue]="myValue" [maxValue]="players?.length" [question]="activeRound?.question" (sendText)="sendAnswer($event)"></app-answering>
+</ng-container>
+
+<ng-container *ngIf="state === ViewState.waitForOthers">
+      <div class="wait">
+        <div>Wait until all other players have submitted an answer and <strong>{{master}}</strong> starts revealing them</div>
+        <img src="https://media4.giphy.com/media/pFZTlrO0MV6LoWSDXd/200w.gif" width="200" alt="wait"/>
+      </div>
+</ng-container>
+
+<ng-container *ngIf="state === ViewState.answersReveal">
+      <div class="answers">
+        <app-flip-card *ngFor="let answer of activeRound?.answers" [flipped]="activeRound?.flippedAnswers?.has(answer.playerName) ?? false">
+          <div front>{{answer.playerName}}</div>
+          <div back>{{answer.text}} {{answer.value}}</div>
+        </app-flip-card>
+      </div>
+</ng-container>
+
+<ng-container *ngIf="state === ViewState.pointsReveal">
+  points
+</ng-container>
+
