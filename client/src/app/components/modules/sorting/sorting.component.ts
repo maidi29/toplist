@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, Input, OnInit} from '@angular/core';
 import {CdkDragDrop, moveItemInArray, transferArrayItem} from "@angular/cdk/drag-drop";
 
 @Component({
@@ -7,17 +7,16 @@ import {CdkDragDrop, moveItemInArray, transferArrayItem} from "@angular/cdk/drag
   styleUrls: ['./sorting.component.scss']
 })
 export class SortingComponent implements OnInit {
+  @Input() answers = ['Get to work', 'Pick up groceries', 'Go home', 'Fall asleep'];
 
   constructor() { }
 
   ngOnInit(): void {
   }
-  answersToSort = ['Get to work', 'Pick up groceries', 'Go home', 'Fall asleep'];
-
-  public sorted: string[] = [];
 
   public drop(event: CdkDragDrop<string[]>) {
-    if (event.previousContainer === event.container) {
+    moveItemInArray(this.answers, event.previousIndex, event.currentIndex);
+    /*if (event.previousContainer === event.container) {
       moveItemInArray(event.container.data, event.previousIndex, event.currentIndex);
     } else {
       transferArrayItem(
@@ -26,7 +25,7 @@ export class SortingComponent implements OnInit {
         event.previousIndex,
         event.currentIndex,
       );
-    }
+    }*/
   }
 
 }

@@ -1,39 +1,35 @@
-<div class="example-container">
-  <h2>To sort</h2>
+  <!--<div>
+    <h2>To sort</h2>
+    <div
+      cdkDropList
+      cdkDropListOrientation="vertical"
+      #answersToSortList="cdkDropList"
+      [cdkDropListData]="answersToSort"
+      [cdkDropListConnectedTo]="[sortedList]"
+      class="drop-list"
+      (cdkDropListDropped)="drop($event)">
+      <div class="drag-box" *ngFor="let item of answersToSort" cdkDrag>
+        <app-card>{{item}}</app-card>
+      </div>
+    </div>
+  </div>-->
 
-  <div
-    cdkDropList
-    cdkDropListOrientation="horizontal"
-    #answersToSortList="cdkDropList"
-    [cdkDropListData]="answersToSort"
-    [cdkDropListConnectedTo]="[sortedList]"
-    class="example-list"
-    (cdkDropListDropped)="drop($event)">
-    <div class="example-box" *ngFor="let item of answersToSort" cdkDrag>
-      <app-flip-card [flipped]="false" cdkDrag>
-        <div front class="hint">{{item}}</div>
-        <div back>{{item}}</div>
-      </app-flip-card>
+<div class="sorting-container">
+  <div>Drag and drop the cards to arrange them on the scale</div>
+  <div class="scale-legend">Best</div>
+  <div class="scale">
+    <div class="arrow"></div>
+    <div
+      cdkDropList
+      cdkDropListOrientation="vertical"
+      [cdkDropListData]="answers"
+      class="drop-list sorted-list"
+      (cdkDropListDropped)="drop($event)">
+      <div class="drag-box" *ngFor="let item of answers" cdkDrag>
+        <app-card>{{item}}</app-card>
+      </div>
     </div>
   </div>
-</div>
-
-<div class="example-container">
-  <h2>Sorted</h2>
-
-  <div
-    cdkDropList
-    cdkDropListOrientation="horizontal"
-    #sortedList="cdkDropList"
-    [cdkDropListData]="sorted"
-    [cdkDropListConnectedTo]="[answersToSortList]"
-    class="example-list"
-    (cdkDropListDropped)="drop($event)">
-    <div class="example-box" *ngFor="let item of sorted" cdkDrag>
-      <app-flip-card [flipped]="false" cdkDrag>
-        <div front class="hint">{{item}}</div>
-        <div back>{{item}}</div>
-      </app-flip-card>
-    </div>
-  </div>
+  <div class="scale-legend">Worst</div>
+  <app-button  [disabled]="true">Submit</app-button>
 </div>

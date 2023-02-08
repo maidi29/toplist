@@ -18,6 +18,10 @@ button {
   font-weight: bold;
   font-family: theme.$fontFamily;
 
+  &[disabled] {
+    background-color: slategrey;
+  }
+
   &:not([disabled]) {
     cursor: pointer;
   }
