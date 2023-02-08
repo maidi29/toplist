@@ -1,0 +1,39 @@
+<div class="example-container">
+  <h2>To sort</h2>
+
+  <div
+    cdkDropList
+    cdkDropListOrientation="horizontal"
+    #answersToSortList="cdkDropList"
+    [cdkDropListData]="answersToSort"
+    [cdkDropListConnectedTo]="[sortedList]"
+    class="example-list"
+    (cdkDropListDropped)="drop($event)">
+    <div class="example-box" *ngFor="let item of answersToSort" cdkDrag>
+      <app-flip-card [flipped]="false" cdkDrag>
+        <div front class="hint">{{item}}</div>
+        <div back>{{item}}</div>
+      </app-flip-card>
+    </div>
+  </div>
+</div>
+
+<div class="example-container">
+  <h2>Sorted</h2>
+
+  <div
+    cdkDropList
+    cdkDropListOrientation="horizontal"
+    #sortedList="cdkDropList"
+    [cdkDropListData]="sorted"
+    [cdkDropListConnectedTo]="[answersToSortList]"
+    class="example-list"
+    (cdkDropListDropped)="drop($event)">
+    <div class="example-box" *ngFor="let item of sorted" cdkDrag>
+      <app-flip-card [flipped]="false" cdkDrag>
+        <div front class="hint">{{item}}</div>
+        <div back>{{item}}</div>
+      </app-flip-card>
+    </div>
+  </div>
+</div>

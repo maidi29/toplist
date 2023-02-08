@@ -16,12 +16,10 @@
     <ng-container *ngIf="state === ViewState.answersReveal">
         <div class="answers">
           <ng-container *ngFor="let answer of activeRound?.answers">
-            <div class="container" [ngClass]="{'selected': selectedWinner === answer.playerName}">
               <app-flip-card [flipped]="activeRound?.flippedAnswers?.has(answer.playerName) ?? false" (click)="flipCard(answer.playerName)">
                 <div front class="hint">{{answer.playerName}} Click to reveal</div>
                 <div back>{{answer.text}} {{answer.value}}</div>
               </app-flip-card>
-            </div>
           </ng-container>
         </div>
         <div *ngIf="((activeRound?.flippedAnswers?.size || 0) >= (players?.length || 1)-1)">

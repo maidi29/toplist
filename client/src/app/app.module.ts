@@ -20,7 +20,6 @@ import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { StoreModule } from '@ngrx/store';
 import { reducers, metaReducers } from './reducers/reducers';
 import { AvatarGeneratorModule } from "ng-custom-avatar-generator";
-import { NgxMasonryModule } from "ngx-masonry";
 import { FlipCardComponent } from './components/elements/flip-card/flip-card.component';
 import { ShareComponent } from './components/elements/share/share.component';
 import { CollapsibleComponent } from './components/elements/collapsible/collapsible.component';
@@ -30,6 +29,8 @@ import { BeforeStartMasterComponent } from './components/modules/before-start-ma
 import { SetQuestionComponent } from './components/modules/set-question/set-question.component';
 import { ModalComponent } from './components/elements/modal/modal.component';
 import { AnsweringComponent } from './components/modules/answering/answering.component';
+import { SortingComponent } from './components/modules/sorting/sorting.component';
+import {DragDropModule} from '@angular/cdk/drag-drop';
 
 const config: SocketIoConfig = {
   url: environment.socketUrl,
@@ -59,6 +60,7 @@ const config: SocketIoConfig = {
     SetQuestionComponent,
     ModalComponent,
     AnsweringComponent,
+    SortingComponent,
   ],
   imports: [
     BrowserModule,
@@ -68,10 +70,10 @@ const config: SocketIoConfig = {
     FormsModule,
     ReactiveFormsModule,
     AvatarGeneratorModule,
+    DragDropModule,
     StoreModule.forRoot(reducers, {
       metaReducers
     }),
-    NgxMasonryModule
   ],
   providers: [],
   bootstrap: [ AppComponent ]
