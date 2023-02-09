@@ -13,24 +13,16 @@
         <img src="https://media4.giphy.com/media/pFZTlrO0MV6LoWSDXd/200w.gif" width="200" alt="wait"/>
       </div>
     </ng-container>
-    <ng-container *ngIf="state === ViewState.answersReveal">
+    <ng-container *ngIf="state === ViewState.answersReveal || state === ViewState.sorting">
         <div class="answers">
-          <ng-container *ngFor="let answer of activeRound?.answers">
-              <app-flip-card [flipped]="activeRound?.flippedAnswers?.has(answer.playerName) ?? false" (click)="flipCard(answer.playerName)">
-                <div front class="hint">{{answer.playerName}} Click to reveal</div>
-                <div back>{{answer.text}} {{answer.value}}</div>
-              </app-flip-card>
-          </ng-container>
-        </div>
-        <div *ngIf="((activeRound?.flippedAnswers?.size || 0) >= (players?.length || 1)-1)">
-          Drag and drop the answers so they have the correct order on the given scale.
+          <app-revealing-and-sorting [state]="state"></app-revealing-and-sorting>
         </div>
     </ng-container>
-    <ng-container *ngIf="state === ViewState.winnerDisplay">
+    <!--<ng-container *ngIf="state === ViewState.sorting">
       <app-button (click)="passToNextMaster()">
         {{(activeRound?.index || 0) >= (numberRounds || 1) ? 'Results' : 'Next Round!'}}
       </app-button>
-    </ng-container>
+    </ng-container>-->
   </div>
 
 </div>

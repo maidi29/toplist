@@ -4,6 +4,7 @@ import {Player} from "../model/player.model";
 import {Observable} from "rxjs";
 import {Answer, Round} from "../model/round.model";
 import {SOCKET_EVENTS} from "../../../../shared/socketEvents";
+import {Question} from "../constants/QUESTIONS";
 
 @Injectable({
   providedIn: 'root'
@@ -40,11 +41,11 @@ export class SocketService {
       return this.socket.fromEvent(SOCKET_EVENTS.SET_ROUND);
     }
 
-    setListTopic(question: string) {
+    setListTopic(question: Question) {
       this.socket.emit(SOCKET_EVENTS.SET_LIST_TOPIC, { question});
     }
 
-    onSetListTopic(): Observable<string> {
+    onSetListTopic(): Observable<Question> {
       return this.socket.fromEvent(SOCKET_EVENTS.SET_LIST_TOPIC);
     }
 
@@ -68,12 +69,20 @@ export class SocketService {
       return this.socket.fromEvent(SOCKET_EVENTS.FLIP_ANSWER);
     }
 
-    submitSorting(name: string): void {
-      this.socket.emit(SOCKET_EVENTS.SUBMIT_SORTING, name);
+    submitSorting(): void {
+      this.socket.emit(SOCKET_EVENTS.SUBMIT_SORTING);
     }
 
-    onSubmitSorting(): Observable<string> {
+    onSubmitSorting(): Observable<void> {
       return this.socket.fromEvent(SOCKET_EVENTS.SUBMIT_SORTING);
+    }
+
+    changeSorting(answers: Answer[]): void {
+      this.socket.emit(SOCKET_EVENTS.CHANGE_SORTING, answers);
+    }
+
+    onChangeSorting(): Observable<Answer[]> {
+      return this.socket.fromEvent(SOCKET_EVENTS.CHANGE_SORTING);
     }
 
     updateMaster(name: string): void {

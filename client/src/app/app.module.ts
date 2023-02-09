@@ -29,7 +29,7 @@ import { BeforeStartMasterComponent } from './components/modules/before-start-ma
 import { SetQuestionComponent } from './components/modules/set-question/set-question.component';
 import { ModalComponent } from './components/elements/modal/modal.component';
 import { AnsweringComponent } from './components/modules/answering/answering.component';
-import { SortingComponent } from './components/modules/sorting/sorting.component';
+import { RevealingAndSortingComponent } from './components/modules/revealing-and-sorting/revealing-and-sorting.component';
 import {DragDropModule} from '@angular/cdk/drag-drop';
 
 const config: SocketIoConfig = {
@@ -60,7 +60,7 @@ const config: SocketIoConfig = {
     SetQuestionComponent,
     ModalComponent,
     AnsweringComponent,
-    SortingComponent,
+    RevealingAndSortingComponent,
   ],
   imports: [
     BrowserModule,

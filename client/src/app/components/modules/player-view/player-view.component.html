@@ -16,16 +16,12 @@
       </div>
 </ng-container>
 
-<ng-container *ngIf="state === ViewState.answersReveal">
+<ng-container *ngIf="state === ViewState.reveal">
       <div class="answers">
-        <app-flip-card *ngFor="let answer of activeRound?.answers" [flipped]="activeRound?.flippedAnswers?.has(answer.playerName) ?? false">
-          <div front>{{answer.playerName}}</div>
-          <div back>{{answer.text}} {{answer.value}}</div>
-        </app-flip-card>
+          <app-card *ngFor="let item of activeRound?.answers" [hidden]="!activeRound?.flippedAnswers?.has(item.playerName)">
+            <ng-container always-visible>{{item.playerName}}:</ng-container>
+            <div hidden-content>{{item.text}}</div>
+          </app-card>
       </div>
-</ng-container>
-
-<ng-container *ngIf="state === ViewState.pointsReveal">
-  points
 </ng-container>
 

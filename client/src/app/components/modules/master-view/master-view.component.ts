@@ -1,11 +1,8 @@
 import { Component } from '@angular/core';
 import {
-  changeScore,
-  flipAnswer,
   setNewRound,
   State,
   updateMaster,
-  submitSorting,
   addAnswer
 } from "../../../reducers/reducers";
 import {Store} from "@ngrx/store";
@@ -14,7 +11,7 @@ import {Round} from "../../../model/round.model";
 import {Player} from "../../../model/player.model";
 import {shuffleArray} from "../../../util";
 
-enum ViewState { setQuestion, thinkOfAnswer, waitForOthers, answersReveal, winnerDisplay}
+export enum MasterViewState { setQuestion, thinkOfAnswer, waitForOthers, answersReveal, sorting}
 
 @Component({
   selector: 'app-master-view',
@@ -22,12 +19,11 @@ enum ViewState { setQuestion, thinkOfAnswer, waitForOthers, answersReveal, winne
   styleUrls: ['./master-view.component.scss']
 })
 export class MasterViewComponent {
-  public ViewState = ViewState;
+  public ViewState = MasterViewState;
   public activeRound?: Round;
-  public selectedWinner?: string;
   public players?: Player[];
   public numberRounds?: number;
-  public state: ViewState = ViewState.setQuestion;
+  public state: MasterViewState = MasterViewState.setQuestion;
   public sent = false;
   public ownPlayer?: Player;
   public myValue?: number;
@@ -47,27 +43,20 @@ export class MasterViewComponent {
       }
       this.activeRound = activeRound;
       const notAllHaveAnswered = this.players && activeRound?.answers && activeRound.answers.length < this.players.length;
+      const allAnswersFlipped = activeRound?.flippedAnswers?.size === this.players?.length;
       if(!activeRound?.question) {
-        this.state = ViewState.setQuestion;
+        this.state = MasterViewState.setQuestion;
       } else if(activeRound?.question && !this.sent) {
-        this.state = ViewState.thinkOfAnswer;
+        this.state = MasterViewState.thinkOfAnswer;
       } else if(this.sent && notAllHaveAnswered) {
-        this.state = ViewState.waitForOthers;
-      } else if(!activeRound?.winner) {
-        this.state = ViewState.answersReveal;
-      } else if (activeRound?.winner) {
-        this.state = ViewState.winnerDisplay;
+        this.state = MasterViewState.waitForOthers;
+      } else if(!allAnswersFlipped) {
+        this.state = MasterViewState.answersReveal;
+      } else if (allAnswersFlipped) {
+        this.state = MasterViewState.sorting;
       }
+      console.log(this.state);
     });
-  }
-
-  public flipCard(playerName: string) {
-    if(this.activeRound?.flippedAnswers?.has(playerName)) {
-      this.selectedWinner = playerName;
-    } else {
-      this.store.dispatch(flipAnswer({playerName}));
-      this.socketService.flipAnswer(playerName);
-    }
   }
 
   public passToNextMaster() {

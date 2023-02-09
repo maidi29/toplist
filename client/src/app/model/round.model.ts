@@ -1,3 +1,5 @@
+import {Question} from "../constants/QUESTIONS";
+
 export interface Answer {
   playerName: string,
   text: string,
@@ -5,10 +7,9 @@ export interface Answer {
 }
 
 export interface Round {
-  question?: string,
+  question?: Question,
   answers?: Answer[],
-  winner?: string,
   index?: number,
   flippedAnswers?: Set<string>,
-  values?: string[]; // Array of playerNames, index = value
+  values?: string[]; // Array of playerNames, index = value,
 }

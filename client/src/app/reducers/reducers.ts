@@ -6,6 +6,7 @@ import { environment } from '../../environments/environment';
 import {Player} from "../model/player.model";
 import {Answer, Round} from "../model/round.model";
 import {randomInt} from "../util";
+import {Question} from "../constants/QUESTIONS";
 
 export interface State {
   players: Player[],
@@ -27,13 +28,12 @@ export const removePlayer = createAction('Remove Player', props<{name: string}>(
 export const changeScore = createAction('Change Score', props<{name: string, value: number}>());
 export const updateMaster = createAction('Update Master', props<{name: string}>());
 export const setNewRound = createAction('Set New Round', props<{nRound: Round}>());
-export const setQuestion = createAction('Set Question', props<{question: string}>());
+export const setQuestion = createAction('Set Question', props<{question: Question}>());
 export const addAnswer = createAction('Add Answer', props<{answer: Answer}>());
-export const submitSorting = createAction('Submit Sorting', props<{scale: Answer[]}>());
 export const setRoom = createAction('Set Room', props<{room: string}>());
 export const flipAnswer = createAction('Flip Answer', props<{playerName: string}>());
 export const setNumberRounds = createAction('Set Number Rounds', props<{number: number}>());
-export const changeSorting = createAction('Change Sorting', props<{scale: Answer[]}>());
+export const replaceAnswers = createAction('Replace Answers', props<{answers: Answer[]}>());
 
 export const playersReducer = createReducer(
   initialState.players,
@@ -89,13 +89,12 @@ export const roundsReducer = createReducer(
   on(setQuestion, (state, {question}) => ({ ...state, question })),
   on(addAnswer, (state, {answer}) => {
     const answers = state?.answers?.filter(({playerName}) => playerName !== answer.playerName) || [];
-    answers.splice(randomInt(0,answers.length), 0, answer);
-    return { ...state, answers };
+    return { ...state, answers: [...answers, answer] };
   }),
   on(flipAnswer, (state, {playerName}) => {
       return { ...state, flippedAnswers: state?.flippedAnswers?.add(playerName) ?? new Set([playerName]) };
   }),
-  on(submitSorting, (state, {scale}) => ({ ...state, scale }))
+  on(replaceAnswers, (state, {answers}) => ({ ...state, answers }))
 );
 
 export const roomReducer = createReducer(

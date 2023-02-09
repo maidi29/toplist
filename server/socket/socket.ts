@@ -80,8 +80,12 @@ module.exports = (io) => {
             socket.broadcast.to(localRoomId).emit(SOCKET_EVENTS.FLIP_ANSWER, name);
         });
 
-        socket.on(SOCKET_EVENTS.SUBMIT_SORTING, async (name) => {
-            socket.broadcast.to(localRoomId).emit(SOCKET_EVENTS.SUBMIT_SORTING, name);
+        socket.on(SOCKET_EVENTS.CHANGE_SORTING, async (answers) => {
+            socket.broadcast.to(localRoomId).emit(SOCKET_EVENTS.CHANGE_SORTING, answers);
+        });
+
+        socket.on(SOCKET_EVENTS.SUBMIT_SORTING, async () => {
+            socket.broadcast.to(localRoomId).emit(SOCKET_EVENTS.SUBMIT_SORTING);
         });
 
         socket.on(SOCKET_EVENTS.UPDATE_MASTER, async (name) => {

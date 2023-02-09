@@ -1,6 +1,6 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {generateRandom} from "../../../util/helpers";
-import {QUESTIONS} from "../../../constants/QUESTIONS";
+import {Question, QUESTIONS} from "../../../constants/QUESTIONS";
 import {Store} from "@ngrx/store";
 import {setQuestion, State} from "../../../reducers/reducers";
 import {SocketService} from "../../../services/socket.service";
@@ -12,10 +12,10 @@ import {SocketService} from "../../../services/socket.service";
 })
 export class SetQuestionComponent implements OnInit {
   @Input() playersCount? = 1;
-  public question: string = "";
-  public from: string = "worst";
-  public to: string = "best";
-  public exampleQuestions: string[] = [''];
+  public questionText: string = "";
+  public from: string = "Worst";
+  public to: string = "Best";
+  public exampleQuestions: Question[] = [];
 
   constructor(private store: Store<State>, private socketService: SocketService) {}
 
@@ -23,14 +23,20 @@ export class SetQuestionComponent implements OnInit {
     this.exampleQuestions = this.getNewRandomQuestions();
   }
 
-  public getNewRandomQuestions(): string[] {
+  public getNewRandomQuestions(): Question[] {
     const s1 = generateRandom(QUESTIONS.length-1, []);
     const s2 = generateRandom( QUESTIONS.length-1, [s1]);
     const s3 = generateRandom( QUESTIONS.length-1, [s1, s2]);
     return [QUESTIONS[s1],QUESTIONS[s2],QUESTIONS[s3]];
   }
 
-  public setQuestion(question: string) {
+  public setQuestion(text: string, from: string, to: string) {
+    //todo: validate
+    const question =  {
+      text,
+      from,
+      to
+    };
     this.store.dispatch(setQuestion({question}));
     this.socketService.setListTopic(question);
   }

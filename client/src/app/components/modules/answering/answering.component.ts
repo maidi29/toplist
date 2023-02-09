@@ -1,5 +1,6 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {Answer} from "../../../model/round.model";
+import {Question} from "../../../constants/QUESTIONS";
 
 @Component({
   selector: 'app-answering',
@@ -9,7 +10,7 @@ import {Answer} from "../../../model/round.model";
 export class AnsweringComponent implements OnInit {
   @Input() myValue?: number;
   @Input() maxValue?: number;
-  @Input() question?: string;
+  @Input() question?: Question;
   @Output() sendText: EventEmitter<string> = new EventEmitter<string>();
   public text: string = "";
 

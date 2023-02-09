@@ -5,7 +5,7 @@ import {addAnswer, State} from "../../../reducers/reducers";
 import {SocketService} from "../../../services/socket.service";
 import {Player} from "../../../model/player.model";
 
-enum ViewState { noQuestion, thinkOfAnswer, waitForOthers, answersReveal, pointsReveal}
+enum ViewState { noQuestion, thinkOfAnswer, waitForOthers, reveal}
 
 @Component({
   selector: 'app-player-view',
@@ -36,10 +36,8 @@ export class PlayerViewComponent {
         this.state = ViewState.thinkOfAnswer;
       } else if(activeRound?.answers && this.sent && notAllHaveAnswered) {
         this.state = ViewState.waitForOthers;
-      } else if(!activeRound?.winner) {
-        this.state = ViewState.answersReveal;
-      } else if(activeRound?.winner) {
-        this.state = ViewState.pointsReveal;
+      } else {
+        this.state = ViewState.reveal;
       }
       this.activeRound = activeRound;
     });
