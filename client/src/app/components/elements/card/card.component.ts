@@ -7,5 +7,6 @@ import {Component, Input} from '@angular/core';
 })
 export class CardComponent {
   @Input() hidden: boolean = false;
+  @Input() correct: boolean = false;
   constructor() { }
 }

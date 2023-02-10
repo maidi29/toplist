@@ -6,19 +6,19 @@
   display: block;
   box-sizing: border-box;
   cursor: pointer;
+  flex: 1;
+  &.correct {
+    background: lightseagreen;
+  }
   .hidden-content {
-    overflow: hidden;
-    white-space: nowrap;
-    width: 0;
+    opacity: 0;
     &.show {
-      animation: typing;
-      animation-duration: 1s;
-      animation-fill-mode: forwards;
+      animation: appear 1s forwards;
       }
     }
 
-  @keyframes typing {
-    from { width: 0 }
-    to { width: 100% }
+  @keyframes appear {
+    from { opacity: 0 }
+    to { opacity: 1 }
   }
 }
