@@ -1,4 +1,4 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {CdkDragDrop, moveItemInArray} from "@angular/cdk/drag-drop";
 import {Answer, Round} from "../../../model/round.model";
 import {flipAnswer, replaceAnswers, State} from "../../../reducers/reducers";
@@ -13,6 +13,7 @@ import {MasterViewState} from "../master-view/master-view.component";
 })
 export class RevealingAndSortingComponent implements OnInit {
   @Input() state: MasterViewState = MasterViewState.answersReveal;
+  @Output() submitOrder: EventEmitter<void> = new EventEmitter<void>();
   public ViewState = MasterViewState;
 
   public activeRound?: Round;
@@ -45,6 +46,7 @@ export class RevealingAndSortingComponent implements OnInit {
 
   public submit() {
       this.socketService.submitSorting();
+      this.submitOrder.emit();
   }
 
   public isHidden(answer: Answer): boolean {

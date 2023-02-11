@@ -1,28 +1,24 @@
-<div class="master-view">
   <ng-container *ngIf="state === ViewState.setQuestion">
     <app-set-question [playersCount]="players?.length"></app-set-question>
   </ng-container>
 
-  <div class="results">
-    <ng-container *ngIf="state === ViewState.thinkOfAnswer">
-      <app-answering [myValue]="myValue" [maxValue]="players?.length" [question]="activeRound?.question" (sendText)="sendAnswer($event)"></app-answering>
-    </ng-container>
-    <ng-container *ngIf="state === ViewState.waitForOthers">
-      <div class="wait">
-        <div>Wait until all other players have submitted an answer and you can start revealing them</div>
-        <img src="https://media4.giphy.com/media/pFZTlrO0MV6LoWSDXd/200w.gif" width="200" alt="wait"/>
+  <ng-container *ngIf="state === ViewState.thinkOfAnswer">
+    <app-answering [myValue]="myValue" [maxValue]="players?.length" [question]="activeRound?.question" (sendText)="sendAnswer($event)"></app-answering>
+  </ng-container>
+  <ng-container *ngIf="state === ViewState.waitForOthers">
+    <div class="wait">
+      <div>Wait until all other players have submitted an answer and you can start revealing them</div>
+      <img src="https://media4.giphy.com/media/pFZTlrO0MV6LoWSDXd/200w.gif" width="200" alt="wait"/>
+    </div>
+  </ng-container>
+  <ng-container *ngIf="state === ViewState.answersReveal || state === ViewState.sorting || state === ViewState.points">
+    <h2>{{activeRound?.question?.text}}</h2>
+    <div class="answers">
+        <app-revealing-and-sorting [state]="state" (submitOrder)="onSubmitOrder()"></app-revealing-and-sorting>
       </div>
-    </ng-container>
-    <ng-container *ngIf="state === ViewState.answersReveal || state === ViewState.sorting">
-        <div class="answers">
-          <app-revealing-and-sorting [state]="state"></app-revealing-and-sorting>
-        </div>
-    </ng-container>
-    <!--<ng-container *ngIf="state === ViewState.sorting">
+  </ng-container>
+    <ng-container *ngIf="state === ViewState.points">
       <app-button (click)="passToNextMaster()">
         {{(activeRound?.index || 0) >= (numberRounds || 1) ? 'Results' : 'Next Round!'}}
       </app-button>
-    </ng-container>-->
-  </div>
-
-</div>
+    </ng-container>

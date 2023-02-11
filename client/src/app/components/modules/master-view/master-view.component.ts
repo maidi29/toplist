@@ -3,7 +3,7 @@ import {
   setNewRound,
   State,
   updateMaster,
-  addAnswer
+  addAnswer, changeScore
 } from "../../../reducers/reducers";
 import {Store} from "@ngrx/store";
 import {SocketService} from "../../../services/socket.service";
@@ -11,7 +11,7 @@ import {Round} from "../../../model/round.model";
 import {Player} from "../../../model/player.model";
 import {shuffleArray} from "../../../util";
 
-export enum MasterViewState { setQuestion, thinkOfAnswer, waitForOthers, answersReveal, sorting}
+export enum MasterViewState { setQuestion, thinkOfAnswer, waitForOthers, answersReveal, sorting, points}
 
 @Component({
   selector: 'app-master-view',
@@ -38,8 +38,11 @@ export class MasterViewComponent {
     });
     store.select("activeRound").subscribe((activeRound) => {
       if(this.activeRound?.index !== activeRound?.index) {
-        this.myValue = (activeRound?.values?.findIndex(name => name===this.ownPlayer?.name) || 0) + 1;
         this.sent = false;
+        this.myValue = undefined;
+      }
+      if(!this.myValue && this.activeRound?.values && this.activeRound?.values.length > 0) {
+        this.myValue = (activeRound?.values?.findIndex(name => name===this.ownPlayer?.name) || 0) + 1;
       }
       this.activeRound = activeRound;
       const notAllHaveAnswered = this.players && activeRound?.answers && activeRound.answers.length < this.players.length;
@@ -55,7 +58,6 @@ export class MasterViewComponent {
       } else if (allAnswersFlipped) {
         this.state = MasterViewState.sorting;
       }
-      console.log(this.state);
     });
   }
 
@@ -82,4 +84,13 @@ export class MasterViewComponent {
     }
   }
 
+  public onSubmitOrder() {
+    this.state = MasterViewState.points;
+    this.activeRound?.answers?.forEach((answer, index) => {
+      if((answer.value === index+1) && (answer.playerName !== this.ownPlayer?.name)) {
+        this.store.dispatch(changeScore({name: answer.playerName, value: 1}));
+        this.store.dispatch(changeScore({name: (this.ownPlayer?.name || ''), value: 1}));
+      }
+    })
+  }
 }

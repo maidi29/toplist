@@ -29,7 +29,19 @@
   gap: 1rem;
   align-items: center;
   width: 50%;
+  @media screen and (max-width: 750px) {
+    width: 100%;
+  }
   > * {
     width: 100%;
   }
 }
+
+.answers-move {
+  transition: transform 1s;
+}
+
+.correct {
+  background: lightseagreen !important;
+}
+

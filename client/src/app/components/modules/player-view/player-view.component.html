@@ -6,7 +6,7 @@
 </ng-container>
 
 <ng-container *ngIf="state === ViewState.thinkOfAnswer">
-<app-answering [myValue]="myValue" [maxValue]="players?.length" [question]="activeRound?.question" (sendText)="sendAnswer($event)"></app-answering>
+  <app-answering [myValue]="myValue" [maxValue]="players?.length" [question]="activeRound?.question" (sendText)="sendAnswer($event)"></app-answering>
 </ng-container>
 
 <ng-container *ngIf="state === ViewState.waitForOthers">
@@ -16,11 +16,20 @@
       </div>
 </ng-container>
 
-<ng-container *ngIf="state === ViewState.reveal">
-      <div class="answers">
-          <app-card *ngFor="let item of activeRound?.answers" [hidden]="!activeRound?.flippedAnswers?.has(item.playerName)">
-            <ng-container always-visible>{{item.playerName}}:</ng-container>
-            <div hidden-content>{{item.text}}</div>
+<ng-container *ngIf="state === ViewState.reveal || state === ViewState.sorting || state === ViewState.points">
+  <h2>{{activeRound?.question?.text}}</h2>
+      <div class="answers" [transition-group]="'answers'">
+          <app-card
+            *ngFor="let item of answers; let i=index;" [hidden]="!activeRound?.flippedAnswers?.has(item.playerName)" app-transition-group-item
+            [correct]="item.value === i+1 && state === ViewState.points"
+          >
+            <ng-container always-visible>
+              {{item.playerName}}:
+            </ng-container>
+            <div hidden-content>
+              {{item.text}}
+              <div *ngIf="state === ViewState.points">{{item.value}}</div>
+            </div>
           </app-card>
       </div>
 </ng-container>

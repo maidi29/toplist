@@ -1,9 +1,16 @@
 @use "./src/theme";
+:host {
+  width:100%;
+}
 
 .sorting-container {
     display: flex;
     flex-direction: column;
     gap: 1rem;
+}
+
+.info {
+  text-align: center;
 }
 
 .drop-list {

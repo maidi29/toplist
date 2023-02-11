@@ -31,6 +31,8 @@ import { ModalComponent } from './components/elements/modal/modal.component';
 import { AnsweringComponent } from './components/modules/answering/answering.component';
 import { RevealingAndSortingComponent } from './components/modules/revealing-and-sorting/revealing-and-sorting.component';
 import {DragDropModule} from '@angular/cdk/drag-drop';
+import { TransitionGroupItemDirective } from './directives/transition-group-item.directive';
+import { TransitionGroupComponent } from './components/elements/transition-group/transition-group.component';
 
 const config: SocketIoConfig = {
   url: environment.socketUrl,
@@ -61,6 +63,8 @@ const config: SocketIoConfig = {
     ModalComponent,
     AnsweringComponent,
     RevealingAndSortingComponent,
+    TransitionGroupItemDirective,
+    TransitionGroupComponent,
   ],
   imports: [
     BrowserModule,

@@ -56,15 +56,12 @@ export class GameComponent implements OnInit {
     const sub3 = this.socketService.onSendAnswer().subscribe((answer)=> this.store.dispatch(addAnswer({answer})));
     const sub4 = this.socketService.onSetListTopic().subscribe((question)=> this.store.dispatch(setQuestion({question})));
     const sub5 = this.socketService.onFlipAnswer().subscribe((playerName)=> this.store.dispatch(flipAnswer({playerName})));
-    const sub6 = this.socketService.onSubmitSorting().subscribe(()=> {
-      // Submitted, change score
-     // this.store.dispatch(changeScore({name, value: 1}));
-    });
+
     const sub7 = this.socketService.onUpdateMaster().subscribe((name) => this.store.dispatch(updateMaster({name})));
     const sub8 = this.socketService.onPlayerLeft().subscribe((name) => this.store.dispatch(removePlayer({name})));
     const sub9 = this.socketService.onSetNumberRounds().subscribe((number) => this.store.dispatch(setNumberRounds({number})));
     const sub10 = this.socketService.onChangeSorting().subscribe((answers) => this.store.dispatch(replaceAnswers({answers})));
-    this.subscriptions.push(sub1,sub2,sub3,sub4,sub5,sub6,sub7,sub8,sub9,sub10);
+    this.subscriptions.push(sub1,sub2,sub3,sub4,sub5,sub7,sub8,sub9,sub10);
   }
 
   ngOnDestroy() {

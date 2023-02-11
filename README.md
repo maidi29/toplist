@@ -15,12 +15,8 @@ inside **server**: `npm install`, `npm run dev`
 
 
 ## Todo
-- appearance of answers and dont do animation on sort
-- change sorting should take effect with players
-- add animation for resorting at player view (https://stackoverflow.com/questions/43928524/how-to-implement-item-reorder-shuffle-animations-with-angulars-ngfor/49706664#49706664) 
 - scale at player view
 - add from and to to example questions
-- validate form
-- points 
+- validate form set-question and submit answer
 - results
-- styling (textarea, set-question)
+- styling (textarea, set-question, question, cards, points-reveal)
