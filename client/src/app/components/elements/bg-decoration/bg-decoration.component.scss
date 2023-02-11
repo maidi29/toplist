@@ -1,0 +1,28 @@
+.shape {
+  position: fixed;
+  z-index: -1;
+  opacity: 0.5;
+  &.top {
+    left:-4rem;
+    top: 3rem;
+    @media screen and (max-width: 750px) {
+      left:-15rem;
+      top: 3rem;
+    }
+  }
+  &.bottom {
+    bottom: -3rem;
+    right: -3rem;
+    transform: scaleY(-1);
+    @media screen and (max-width: 750px) {
+      bottom: -6rem;
+      right: -13rem;
+    }
+  }
+  .light {
+    fill: #1D4A72;
+  }
+  .dark {
+    fill: #051D23;
+  }
+}

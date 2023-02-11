@@ -1,0 +1,8 @@
+app-card {
+  position: relative;
+  .value {
+    position: absolute;
+    right: 2rem;
+    top: 2rem;
+  }
+}
