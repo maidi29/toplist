@@ -1,7 +1,9 @@
+@use 'src/theme';
+
 .set-question {
   display: flex;
   flex-direction: column;
-  gap: 2rem;
+  gap: 2.5rem;
   align-items: center;
   .create-container, .choose-container {
     display: flex;
@@ -35,5 +37,44 @@
       position: absolute;
       right: 0;
     }
+  }
+
+  .form {
+    width: 50%;
+    @media screen and (max-width: 750px) {
+      width: 100%;
+    }
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  .scale-form {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    justify-content: space-between;
+    > span {
+      flex:1;
+      font-size: 1.3rem;
+      text-align: right;
+      min-width: fit-content;
+    }
+    > app-input {
+      flex:2;
+    }
+  }
+
+  .divisor {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    align-items: center;
+    gap: 1rem;
+  }
+  .divisor:before, .divisor:after{
+    content: "";
+    flex: 1 1;
+    border-bottom: 1px solid theme.$colorSecondary;
   }
 }

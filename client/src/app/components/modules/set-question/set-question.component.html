@@ -1,20 +1,30 @@
 <div class="set-question">
   <div class="create-container">
-    <div>Create a question and a scale:</div>
-    <div>
-      <app-input [(ngModel)]="questionText"></app-input>
-      From 1 = <app-input [(ngModel)]="from" ></app-input>
-      to {{ playersCount }} = <app-input [(ngModel)]="to"></app-input>
+    <h3>Create a topic and a scale</h3>
+    <div class="form">
+      <app-textarea [(ngModel)]="questionText" [rows]="2" [maxlength]="100" [errorMessage]="errorQuestion" (ngModelChange)="errorQuestion=undefined"></app-textarea>
+      <div class="scale-form">
+        <span>From 1 = </span>
+        <app-input [(ngModel)]="from" [maxlength]="50" [errorMessage]="errorFrom" (ngModelChange)="errorFrom=undefined"></app-input>
+      </div>
+      <div class="scale-form">
+        <span>to {{ playersCount }} = </span>
+        <app-input [(ngModel)]="to" [maxlength]="50" [errorMessage]="errorTo" (ngModelChange)="errorTo=undefined"></app-input>
+      </div>
       <app-button (click)="setQuestion(questionText, from, to)">
         Submit
       </app-button>
     </div>
   </div>
   <div class="choose-container">
-    <div>Or choose from these topics:</div>
+    <h3 class="divisor">Or choose from these topics</h3>
     <div class="suggestions">
       <app-card *ngFor="let question of exampleQuestions" (click)="setQuestion(question.text, question.from, question.to)">
-        <ng-container always-visible>{{question.text}}</ng-container></app-card>
+        <ng-container always-visible>
+          <h3>{{question.text}}</h3>
+          <div>From <b>{{question.from}}</b> to <b>{{question.to}}</b></div>
+        </ng-container>
+      </app-card>
     </div>
     <app-button [secondary]="true" (click)="exampleQuestions = getNewRandomQuestions()">Get new topics</app-button>
   </div>

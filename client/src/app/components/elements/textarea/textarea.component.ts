@@ -1,22 +1,22 @@
-import {Component, EventEmitter, Input, Output} from '@angular/core';
+import {Component, Input} from '@angular/core';
 import {ControlValueAccessor, NG_VALUE_ACCESSOR} from "@angular/forms";
 
 @Component({
-  selector: 'app-input',
-  templateUrl: './input.component.html',
-  styleUrls: ['./input.component.scss'],
+  selector: 'app-textarea',
+  templateUrl: './textarea.component.html',
+  styleUrls: ['./textarea.component.scss'],
   providers: [
     {
       provide: NG_VALUE_ACCESSOR,
-      useExisting: InputComponent,
+      useExisting: TextareaComponent,
       multi: true
     }]
 })
-export class InputComponent implements ControlValueAccessor {
+export class TextareaComponent implements ControlValueAccessor {
   @Input() placeholder: string = "";
   @Input() errorMessage?: string;
-  @Input() paddingRight?: number;
-  @Input() maxlength: number|null = null;
+  @Input() rows?: number = 4;
+  @Input() maxlength: number | null = null;
 
   private innerValue: string = '';
   public onChange: (value: string) => void = () => {};

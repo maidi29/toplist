@@ -4,19 +4,21 @@
 
 ## dev
 
-inside **client**: `npm install`, `npm start`
+inside **client**: `npm install`
 
-inside **server**: `npm install`, `npm run dev`
+inside **server**: `npm install`
+
+**root**: `npm run start:local` open under http://localhost:4200
+
 
 ## prod
 
-**root**: `npm run build`, `npm run start`
+**root**: `npm run build`, `npm run start` runs under http://localhost:3000
 
 
 
 ## Todo
 - scale at player view
-- add from and to to example questions
-- validate form set-question and submit answer
+- validate submit answer
 - results
-- styling (textarea, set-question, question, cards, points-reveal)
+- styling (question, cards, points-reveal)

@@ -8,7 +8,7 @@ import { environment } from 'src/environments/environment';
 import { SocketIoModule, SocketIoConfig } from 'ngx-socket-io';
 import { ButtonComponent } from './components/elements/button/button.component';
 import { StartComponent } from './components/pages/start/start.component';
-import { InputComponent } from './components/elements/input/input.component';
+import { TextareaComponent } from './components/elements/textarea/textarea.component';
 import { GameComponent } from './components/pages/game/game.component';
 import { ResultsComponent } from './components/pages/results/results.component';
 import { PrivacyComponent } from './components/pages/privacy/privacy.component';
@@ -33,6 +33,7 @@ import { RevealingAndSortingComponent } from './components/modules/revealing-and
 import {DragDropModule} from '@angular/cdk/drag-drop';
 import { TransitionGroupItemDirective } from './directives/transition-group-item.directive';
 import { TransitionGroupComponent } from './components/elements/transition-group/transition-group.component';
+import {InputComponent} from "./components/elements/input/input.component";
 
 const config: SocketIoConfig = {
   url: environment.socketUrl,
@@ -47,6 +48,7 @@ const config: SocketIoConfig = {
     ButtonComponent,
     StartComponent,
     InputComponent,
+    TextareaComponent,
     GameComponent,
     ResultsComponent,
     PrivacyComponent,

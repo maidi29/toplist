@@ -1,0 +1,9 @@
+<textarea class="textarea"
+       placeholder="{{placeholder}}"
+       [(ngModel)]="value"
+       [rows]="rows"
+       [maxlength]="maxlength"
+       (blur)="onBlur()"></textarea>
+<div *ngIf="errorMessage" class="alert">
+  ⚠ {{errorMessage}}
+</div>

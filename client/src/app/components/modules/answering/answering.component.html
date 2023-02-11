@@ -3,5 +3,5 @@
   {{maxValue}} ({{question?.to}}) to this topic:
   <h2>{{question?.text}}</h2>
 </div>
-<textarea placeholder="Add your answer here" [(ngModel)]="text"></textarea>
+<app-textarea placeholder="Add your answer here" [(ngModel)]="text" [rows]="4" [maxlength]="200"></app-textarea>
 <app-button (click)="sendAnswer()">Submit</app-button>

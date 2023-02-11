@@ -4,6 +4,12 @@
   "private": true,
   "scripts": {
     "build": "(cd client && npm ci --legacy-peer-deps && npm run build) && (cd server && npm ci)",
-    "start": "cd server && npm run start"
+    "start": "cd server && npm run start",
+    "start:local": "concurrently --kill-others \"npm run start:local:client\" \"npm run start:local:server\"",
+    "start:local:client": "cd client && npm run start",
+    "start:local:server": "cd server && npm run dev"
+  },
+  "devDependencies": {
+    "concurrently": "^7.6.0"
   }
 }

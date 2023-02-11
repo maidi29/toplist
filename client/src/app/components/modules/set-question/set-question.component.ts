@@ -16,6 +16,9 @@ export class SetQuestionComponent implements OnInit {
   public from: string = "Worst";
   public to: string = "Best";
   public exampleQuestions: Question[] = [];
+  public errorFrom?: string;
+  public errorTo?: string;
+  public errorQuestion?: string;
 
   constructor(private store: Store<State>, private socketService: SocketService) {}
 
@@ -31,14 +34,33 @@ export class SetQuestionComponent implements OnInit {
   }
 
   public setQuestion(text: string, from: string, to: string) {
-    //todo: validate
-    const question =  {
-      text,
-      from,
-      to
-    };
-    this.store.dispatch(setQuestion({question}));
-    this.socketService.setListTopic(question);
+    if(from.trim() === "") {
+      this.errorFrom = "Please define a description for the lowest value"
+    }
+    if(from.length > 50) {
+      this.errorFrom = "Please enter only 50 characters"
+    }
+    if(to.trim() === "") {
+      this.errorFrom = "Please define a description for the highest value"
+    }
+    if(to.length > 50) {
+      this.errorTo = "Please enter only 50 characters"
+    }
+    if(text.trim() === "") {
+      this.errorQuestion = "Please define a question"
+    }
+    if(text.length > 100) {
+      this.errorQuestion = "Please enter only 100 characters"
+    }
+    if(!this.errorQuestion && !this.errorFrom && !this.errorTo) {
+      const question =  {
+        text,
+        from,
+        to
+      };
+      this.store.dispatch(setQuestion({question}));
+      this.socketService.setListTopic(question);
+    }
   }
 
 }

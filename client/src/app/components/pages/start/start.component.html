@@ -2,7 +2,7 @@
 <form [formGroup]="startForm" class="form">
   <div class="player-settings">
     <img *ngIf="avatar" [src]="avatar" (click)="showAvatarGenerator = true" class="avatar" alt="avatar"/>
-    <app-input class="name-input" [placeholder]="'Name'" required [formControlName]="'name'"
+    <app-input class="name-input" [placeholder]="'Name'" required [formControlName]="'name'" [maxlength]="50"
        [errorMessage]="startForm.controls.name.invalid && startForm.controls.name.touched ?
        ((startForm.controls.name.errors?.['required'] && 'Please enter a Name') ||
         (startForm.controls.name.errors?.['maxlength'] && 'Please enter a maximum of 50 characters') ||
@@ -18,7 +18,7 @@
       <div class="vl"></div>
     </div>
     <div class="join">
-      <app-input [placeholder]="'Game ID'" [formControlName]="'gameId'" maxlength="3"
+      <app-input [placeholder]="'Game ID'" [formControlName]="'gameId'" [maxlength]="3"
        [errorMessage]="startForm.controls.gameId.invalid && startForm.controls.gameId.touched ?
        ((startForm.controls.gameId.errors?.['required'] && 'Please enter a Game ID') ||
         (startForm.controls.gameId.errors?.['minlength'] && 'Please enter at least 3 characters') ||

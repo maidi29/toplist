@@ -1,5 +1,6 @@
 <input class="input"
        placeholder="{{placeholder}}"
+       [maxlength]="maxlength"
        [(ngModel)]="value"
        (blur)="onBlur()"
        [ngStyle]="{'padding-right': paddingRight+'rem'}"

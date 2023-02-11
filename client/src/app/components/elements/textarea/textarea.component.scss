@@ -1,0 +1,20 @@
+@use 'src/theme';
+
+.textarea {
+  outline: none;
+  background-color: white;
+  border-radius: 2rem;
+  padding: 2rem;
+  width: 100%;
+  font-size: 1.25rem;
+  height: auto;
+  line-height: 1;
+  font-family: theme.$fontFamily;
+  border: none;
+}
+
+.alert {
+  margin-top: .5rem;
+  color: darken(theme.$colorTertiary,10);
+  padding: 0 2rem;
+}
