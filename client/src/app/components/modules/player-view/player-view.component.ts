@@ -67,7 +67,7 @@ export class PlayerViewComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.submitSubscription = this.socketService.onSubmitSorting().subscribe(()=> {
       this.state = ViewState.points;
-      this.answers?.forEach((answer, index) => {
+      this.answers?.reverse().forEach((answer, index) => {
         if((answer.value === index+1) && (answer.playerName !== this.master)) {
           this.store.dispatch(changeScore({name: answer.playerName, value: 1}));
           this.store.dispatch(changeScore({name: this.master, value: 1}));

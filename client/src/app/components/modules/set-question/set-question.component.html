@@ -11,7 +11,7 @@
         <span>to {{ playersCount }} = </span>
         <app-input [(ngModel)]="to" [maxlength]="50" [errorMessage]="errorTo" (ngModelChange)="errorTo=undefined"></app-input>
       </div>
-      <app-button (click)="setQuestion(questionText, from, to)">
+      <app-button (click)="setQuestion(questionText, from, to, false)">
         Submit
       </app-button>
     </div>
@@ -19,7 +19,7 @@
   <div class="choose-container">
     <h3 class="divisor">Or choose from these topics</h3>
     <div class="suggestions">
-      <app-card *ngFor="let question of exampleQuestions" (click)="setQuestion(question.text, question.from, question.to)">
+      <app-card *ngFor="let question of exampleQuestions" (click)="setQuestion(question.text, question.from, question.to, true)">
         <ng-container always-visible>
           <h3>{{question.text}}</h3>
           <div>From <b>{{question.from}}</b> to <b>{{question.to}}</b></div>

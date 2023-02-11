@@ -33,7 +33,7 @@ export class SetQuestionComponent implements OnInit {
     return [QUESTIONS[s1],QUESTIONS[s2],QUESTIONS[s3]];
   }
 
-  public setQuestion(text: string, from: string, to: string) {
+  public setQuestion(text: string, from: string, to: string, isExample: boolean) {
     if(from.trim() === "") {
       this.errorFrom = "Please define a description for the lowest value"
     }
@@ -52,7 +52,7 @@ export class SetQuestionComponent implements OnInit {
     if(text.length > 100) {
       this.errorQuestion = "Please enter only 100 characters"
     }
-    if(!this.errorQuestion && !this.errorFrom && !this.errorTo) {
+    if((!this.errorQuestion && !this.errorFrom && !this.errorTo) || isExample) {
       const question =  {
         text,
         from,
