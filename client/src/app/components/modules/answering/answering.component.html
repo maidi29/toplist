@@ -1,7 +1,15 @@
 <div class="info">
-  Think of an answer that has the value {{myValue}} on a scale from 1 ({{question?.from}}) to
-  {{maxValue}} ({{question?.to}}) to this topic:
-  <h2>{{question?.text}}</h2>
+  Think of an answer that has the value
+  <h1>{{myValue}}</h1>
+  <div>
+    on a scale from
+    <b>1 ({{question?.from}})</b> to <b>{{maxValue}} ({{question?.to}})</b>
+    to this topic:
+  </div>
 </div>
-<app-textarea placeholder="Add your answer here" [(ngModel)]="text" [rows]="4" [maxlength]="200"></app-textarea>
+<h2>{{question?.text}}</h2>
+<app-textarea class="textarea" placeholder="Add your answer here"
+              [(ngModel)]="text" [rows]="4" [maxlength]="200"
+              (ngModelChange)="error = undefined" [errorMessage]="error"
+></app-textarea>
 <app-button (click)="sendAnswer()">Submit</app-button>

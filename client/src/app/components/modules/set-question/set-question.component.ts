@@ -4,6 +4,7 @@ import {Question, QUESTIONS} from "../../../constants/QUESTIONS";
 import {Store} from "@ngrx/store";
 import {setQuestion, State} from "../../../reducers/reducers";
 import {SocketService} from "../../../services/socket.service";
+import {FormControl, FormGroup, Validators} from "@angular/forms";
 
 @Component({
   selector: 'app-set-question',
@@ -12,13 +13,13 @@ import {SocketService} from "../../../services/socket.service";
 })
 export class SetQuestionComponent implements OnInit {
   @Input() playersCount? = 1;
-  public questionText: string = "";
-  public from: string = "Worst";
-  public to: string = "Best";
   public exampleQuestions: Question[] = [];
-  public errorFrom?: string;
-  public errorTo?: string;
-  public errorQuestion?: string;
+
+  public setQuestionForm = new FormGroup({
+    questionText: new FormControl('', [Validators.required, Validators.maxLength(100)]),
+    from: new FormControl('Worst', [Validators.required, Validators.maxLength(50)]),
+    to: new FormControl('Best', [Validators.required, Validators.maxLength(50)]),
+  });
 
   constructor(private store: Store<State>, private socketService: SocketService) {}
 
@@ -34,33 +35,17 @@ export class SetQuestionComponent implements OnInit {
   }
 
   public setQuestion(text: string, from: string, to: string, isExample: boolean) {
-    if(from.trim() === "") {
-      this.errorFrom = "Please define a description for the lowest value"
+    if(!isExample) {
+      this.setQuestionForm.markAllAsTouched();
     }
-    if(from.length > 50) {
-      this.errorFrom = "Please enter only 50 characters"
-    }
-    if(to.trim() === "") {
-      this.errorFrom = "Please define a description for the highest value"
-    }
-    if(to.length > 50) {
-      this.errorTo = "Please enter only 50 characters"
-    }
-    if(text.trim() === "") {
-      this.errorQuestion = "Please define a question"
-    }
-    if(text.length > 100) {
-      this.errorQuestion = "Please enter only 100 characters"
-    }
-    if((!this.errorQuestion && !this.errorFrom && !this.errorTo) || isExample) {
+    if((!isExample && this.setQuestionForm.valid) || isExample) {
       const question =  {
-        text,
-        from,
-        to
+        text: text.trim(),
+        from: from.trim(),
+        to: to.trim()
       };
       this.store.dispatch(setQuestion({question}));
       this.socketService.setListTopic(question);
     }
   }
-
 }

@@ -18,19 +18,23 @@
 
 <ng-container *ngIf="state === ViewState.reveal || state === ViewState.sorting || state === ViewState.points">
   <h2>{{activeRound?.question?.text}}</h2>
-      <div class="answers" [transition-group]="'answers'">
-          <app-card
-            *ngFor="let item of answers; let i=index;" [hidden]="!activeRound?.flippedAnswers?.has(item.playerName)" app-transition-group-item
-            [correct]="item.value === i+1 && state === ViewState.points"
-          >
-            <ng-container always-visible>
-              {{item.playerName}}:
-            </ng-container>
-            <div hidden-content>
-              {{item.text}}
-              <div *ngIf="state === ViewState.points">{{item.value}}</div>
-            </div>
-          </app-card>
-      </div>
+        <app-scale *ngIf="state !== ViewState.reveal else revealing"
+                   [from]="activeRound?.question?.from || ''" [to]="activeRound?.question?.to || ''">
+          <ng-container *ngTemplateOutlet="revealing"></ng-container>
+        </app-scale>
+
+        <ng-template #revealing>
+          <div class="answers" [transition-group]="'answers'">
+          <app-answer-card *ngFor="let item of answers; let i=index;"
+                           [clickable]="false"
+                           [hidden]="!activeRound?.flippedAnswers?.has(item.playerName)"
+                           [correct]="item.value === i+1 && state === ViewState.points"
+                           [playerName]="item.playerName"
+                           [value]="state === ViewState.points ? item.value : undefined"
+                           [text]="item.text"
+                           app-transition-group-item
+          ></app-answer-card>
+          </div>
+        </ng-template>
 </ng-container>
 

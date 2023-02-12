@@ -19,3 +19,13 @@
 @mixin stroke($stroke, $color) {
   text-shadow: stroke($stroke, $color);
 }
+
+@mixin width-responsive() {
+  width: 50%;
+  @media screen and (max-width: 1200px) {
+    width: 75%;
+  }
+  @media screen and (max-width: 750px) {
+    width: 100%;
+  }
+}

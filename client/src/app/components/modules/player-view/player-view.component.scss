@@ -1,3 +1,5 @@
+@use "src/mixins";
+
 :host {
   display: flex;
   flex-direction: column;
@@ -28,10 +30,8 @@
   flex-direction: column;
   gap: 1rem;
   align-items: center;
-  width: 50%;
-  @media screen and (max-width: 750px) {
-    width: 100%;
-  }
+  padding: 15px 0;
+  @include mixins.width-responsive();
   > * {
     width: 100%;
   }

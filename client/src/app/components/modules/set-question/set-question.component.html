@@ -1,20 +1,35 @@
 <div class="set-question">
   <div class="create-container">
     <h3>Create a topic and a scale</h3>
-    <div class="form">
-      <app-textarea [(ngModel)]="questionText" [rows]="2" [maxlength]="100" [errorMessage]="errorQuestion" (ngModelChange)="errorQuestion=undefined"></app-textarea>
+    <form class="form" [formGroup]="setQuestionForm">
+      <app-textarea [rows]="2"
+                    [maxlength]="100"
+                    placeholder="E.g. Name a superpower."
+                    required
+                    [formControlName]="'questionText'"
+                    [errorMessage]="setQuestionForm.controls.questionText.invalid && setQuestionForm.controls.questionText.touched ?
+       ((setQuestionForm.controls.questionText.errors?.['required'] && 'Please enter a topic') ||
+        (setQuestionForm.controls.questionText.errors?.['maxlength'] && 'Please enter a maximum of 100 characters')) : undefined"
+      ></app-textarea>
       <div class="scale-form">
         <span>From 1 = </span>
-        <app-input [(ngModel)]="from" [maxlength]="50" [errorMessage]="errorFrom" (ngModelChange)="errorFrom=undefined"></app-input>
+        <app-input [formControlName]="'from'" [maxlength]="50" required
+                   [errorMessage]="setQuestionForm.controls.from.invalid && setQuestionForm.controls.from.touched ?
+       ((setQuestionForm.controls.from.errors?.['required'] && 'Please enter a description for the lowest value') ||
+        (setQuestionForm.controls.from.errors?.['maxlength'] && 'Please enter a maximum of 50 characters')) : undefined"></app-input>
       </div>
       <div class="scale-form">
         <span>to {{ playersCount }} = </span>
-        <app-input [(ngModel)]="to" [maxlength]="50" [errorMessage]="errorTo" (ngModelChange)="errorTo=undefined"></app-input>
+        <app-input [formControlName]="'to'" [maxlength]="50" required
+                   [errorMessage]="setQuestionForm.controls.to.invalid && setQuestionForm.controls.to.touched ?
+       ((setQuestionForm.controls.to.errors?.['required'] && 'Please enter a description for the highest value') ||
+        (setQuestionForm.controls.to.errors?.['maxlength'] && 'Please enter a maximum of 50 characters')) : undefined"
+        ></app-input>
       </div>
-      <app-button (click)="setQuestion(questionText, from, to, false)">
+      <app-button (click)="setQuestion(setQuestionForm.controls.questionText.value || '',setQuestionForm.controls.from.value || '', setQuestionForm.controls.to.value || '', false)">
         Submit
       </app-button>
-    </div>
+    </form>
   </div>
   <div class="choose-container">
     <h3 class="divisor">Or choose from these topics</h3>

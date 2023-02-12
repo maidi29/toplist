@@ -11,8 +11,8 @@ export const QUESTIONS: Question[] = [
   },
   {
     text: "What are your favorite vacation spots?",
-    from: "staycation",
-    to: "traveling to the moon",
+    from: "standard",
+    to: "extraordinary",
   },
   {
     text: "What are the worst movie endings?",
@@ -31,23 +31,23 @@ export const QUESTIONS: Question[] = [
   },
   {
     text: "What's the best way to unwind?",
-    from: "taking a bath",
-    to: "skydiving",
+    from: "slow",
+    to: "adventurous",
   },
   {
     text: "What's your favorite food?",
-    from: "plain toast",
+    from: "standard",
     to: "exotic cuisine",
   },
   {
     text: "What's your favorite mode of transportation?",
-    from: "walking",
-    to: "flying cars",
+    from: "standard",
+    to: "extraordinary",
   },
   {
     text: "If you switched lives with a movie/tv-show character, who is it?",
-    from: "I want my life back now",
-    to: "I can stay in this body forever",
+    from: "bring me back now",
+    to: "I stay here forever",
   },
   {
     text: "Name a movie scene?",
@@ -91,8 +91,8 @@ export const QUESTIONS: Question[] = [
   },
   {
     text: "Your friend texts you to hang out. What is the plan?",
-    from: "staying in",
-    to: "wild night out",
+    from: "relaxing",
+    to: "wild",
   },
   {
     text: "You receive an email from a long lost relative. What is the reason?",
@@ -100,7 +100,7 @@ export const QUESTIONS: Question[] = [
     to: "life changing news"
   },
   {
-    text: "What's the best superpower?",
+    text: "Name a superpower.",
     from: "lame",
     to: "life changing",
   },

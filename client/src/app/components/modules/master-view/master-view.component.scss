@@ -1,3 +1,5 @@
+@use "src/mixins";
+
 :host {
   display: flex;
   flex-direction: column;
@@ -20,8 +22,5 @@ h2 {
 .answers {
   display: flex;
   align-items: center;
-  width: 50%;
-  @media screen and (max-width: 750px) {
-    width: 100%;
-  }
+  @include mixins.width-responsive();
 }

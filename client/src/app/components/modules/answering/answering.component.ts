@@ -13,6 +13,7 @@ export class AnsweringComponent implements OnInit {
   @Input() question?: Question;
   @Output() sendText: EventEmitter<string> = new EventEmitter<string>();
   public text: string = "";
+  public error?: string;
 
   constructor() { }
 
@@ -20,7 +21,15 @@ export class AnsweringComponent implements OnInit {
   }
 
   public sendAnswer() {
-    this.sendText.emit(this.text);
+    this.text = this.text.trim();
+    if(this.text.length === 0) {
+      this.error = "Please enter an answer"
+    } else if (this.text.length > 200) {
+      this.error = "Please enter a maximum of 200 characters"
+    }
+    if(!this.error) {
+      this.sendText.emit(this.text.trim());
+    }
   }
 
 }

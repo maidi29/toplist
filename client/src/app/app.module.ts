@@ -34,6 +34,9 @@ import {DragDropModule} from '@angular/cdk/drag-drop';
 import { TransitionGroupItemDirective } from './directives/transition-group-item.directive';
 import { TransitionGroupComponent } from './components/elements/transition-group/transition-group.component';
 import {InputComponent} from "./components/elements/input/input.component";
+import { BgDecorationComponent } from './components/elements/bg-decoration/bg-decoration.component';
+import { ScaleComponent } from './components/elements/scale/scale.component';
+import { AnswerCardComponent } from './components/elements/answer-card/answer-card.component';
 
 const config: SocketIoConfig = {
   url: environment.socketUrl,
@@ -67,6 +70,9 @@ const config: SocketIoConfig = {
     RevealingAndSortingComponent,
     TransitionGroupItemDirective,
     TransitionGroupComponent,
+    BgDecorationComponent,
+    ScaleComponent,
+    AnswerCardComponent,
   ],
   imports: [
     BrowserModule,

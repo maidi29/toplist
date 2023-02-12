@@ -1,9 +1,13 @@
 <div class="sorting-container">
   <div *ngIf="state === ViewState.answersReveal" class="info">Click at the cards to reveal the answers</div>
   <div *ngIf="state === ViewState.sorting" class="info">Drag and drop the cards to arrange them on the scale</div>
-  <div class="scale-legend" *ngIf="state !== ViewState.answersReveal">{{activeRound?.question?.to}}</div>
-  <div class="scale">
-    <div class="arrow" *ngIf="state !== ViewState.answersReveal"></div>
+
+  <app-scale *ngIf="state !== ViewState.answersReveal else revealing"
+             [from]="activeRound?.question?.from || ''" [to]="activeRound?.question?.to || ''">
+    <ng-container *ngTemplateOutlet="revealing"></ng-container>
+  </app-scale>
+
+  <ng-template #revealing>
     <div
       cdkDropList
       cdkDropListOrientation="vertical"
@@ -13,21 +17,18 @@
       <div class="drag-box" *ngFor="let item of answers; let i=index;"
            [cdkDragDisabled]="state !== ViewState.sorting"
            cdkDrag>
-        <app-card (click)="flipCard(item.playerName)" [hidden]="isHidden(item)"
-                  [correct]="item.value === i+1 && state === ViewState.points"
-        >
-          <ng-container always-visible>
-            {{item.playerName}}:
-            <div *ngIf="state !== ViewState.answersReveal">{{item.text}}</div>
-            <div *ngIf="state === ViewState.points">{{item.value}}</div>
-          </ng-container>
-          <div hidden-content *ngIf="state === ViewState.answersReveal">
-            {{item.text}}
-          </div>
-        </app-card>
+        <app-answer-card [clickable]="true"
+                         (click)="flipCard(item.playerName)"
+                         [hidden]="isHidden(item)"
+                         [correct]="item.value === i+1 && state === ViewState.points"
+                         [playerName]="item.playerName"
+                         [value]="state === ViewState.points ? item.value : undefined"
+                         [text]="item.text"
+        ></app-answer-card>
       </div>
     </div>
-  </div>
-  <div class="scale-legend" *ngIf="state !== ViewState.answersReveal">{{activeRound?.question?.from}}</div>
+  </ng-template>
+
+
   <app-button *ngIf="state === ViewState.sorting" (click)="submit()">Submit order</app-button>
 </div>

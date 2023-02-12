@@ -18,7 +18,5 @@ inside **server**: `npm install`
 
 
 ## Todo
-- scale at player view
-- validate submit answer
 - results
-- styling (question, cards, points-reveal)
+- styling (cards, points-reveal)
