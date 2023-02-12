@@ -1,8 +1,7 @@
 <ng-container *ngIf="state === ViewState.noQuestion">
-  <div class="info wait">
-    <div>Wait until <strong>{{master}}</strong> sets a question and scale</div>
-    <img src="https://media4.giphy.com/media/pFZTlrO0MV6LoWSDXd/200w.gif" width="200" alt="wait"/>
-  </div>
+  <app-wait>
+    Wait until <strong>{{master}}</strong> sets a question and scale
+  </app-wait>
 </ng-container>
 
 <ng-container *ngIf="state === ViewState.thinkOfAnswer">
@@ -10,14 +9,13 @@
 </ng-container>
 
 <ng-container *ngIf="state === ViewState.waitForOthers">
-      <div class="wait">
-        <div>Wait until all other players have submitted an answer and <strong>{{master}}</strong> starts revealing them</div>
-        <img src="https://media4.giphy.com/media/pFZTlrO0MV6LoWSDXd/200w.gif" width="200" alt="wait"/>
-      </div>
+  <app-wait>
+        Wait until all other players have submitted an answer and <strong>{{master}}</strong> starts revealing them
+  </app-wait>
 </ng-container>
 
-<ng-container *ngIf="state === ViewState.reveal || state === ViewState.sorting || state === ViewState.points">
-  <h2>{{activeRound?.question?.text}}</h2>
+<div  class="results" *ngIf="state === ViewState.reveal || state === ViewState.sorting || state === ViewState.points">
+        <h2>{{activeRound?.question?.text}}</h2>
         <app-scale *ngIf="state !== ViewState.reveal else revealing"
                    [from]="activeRound?.question?.from || ''" [to]="activeRound?.question?.to || ''">
           <ng-container *ngTemplateOutlet="revealing"></ng-container>
@@ -36,5 +34,5 @@
           ></app-answer-card>
           </div>
         </ng-template>
-</ng-container>
+</div>
 

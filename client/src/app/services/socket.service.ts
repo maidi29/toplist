@@ -14,7 +14,7 @@ export class SocketService {
   constructor(private socket: Socket) {}
 
     createRoom(player: Player) {
-      this.socket.emit(SOCKET_EVENTS.CREATE_ROOM, player)
+      this.socket.emit(SOCKET_EVENTS.CREATE_ROOM, player);
     }
 
     onCreateRoom(): Observable<string> {

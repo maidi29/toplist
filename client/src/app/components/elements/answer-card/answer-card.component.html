@@ -1,7 +1,7 @@
 <app-card [hidden]="hidden"
           [correct]="correct">
   <ng-container always-visible>
-    {{playerName}}
+    <div class="name">{{playerName}}</div>
     <div class="value" *ngIf="value">{{value}}</div>
   </ng-container>
   <div hidden-content>

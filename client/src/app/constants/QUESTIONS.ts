@@ -50,7 +50,7 @@ export const QUESTIONS: Question[] = [
     to: "I stay here forever",
   },
   {
-    text: "Name a movie scene?",
+    text: "Name a movie scene.",
     from: "meh",
     to: "unforgettable",
   },

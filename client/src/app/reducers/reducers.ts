@@ -1,11 +1,10 @@
 import {
-  ActionReducerMap, createAction, createReducer,
+  ActionReducer,
+  ActionReducerMap, createAction, createReducer, INIT,
   MetaReducer, on, props
 } from '@ngrx/store';
-import { environment } from '../../environments/environment';
 import {Player} from "../model/player.model";
 import {Answer, Round} from "../model/round.model";
-import {randomInt} from "../util";
 import {Question} from "../constants/QUESTIONS";
 
 export interface State {
@@ -34,10 +33,13 @@ export const setRoom = createAction('Set Room', props<{room: string}>());
 export const flipAnswer = createAction('Flip Answer', props<{playerName: string}>());
 export const setNumberRounds = createAction('Set Number Rounds', props<{number: number}>());
 export const replaceAnswers = createAction('Replace Answers', props<{answers: Answer[]}>());
+export const reset = createAction('Reset');
 
 export const playersReducer = createReducer(
   initialState.players,
-  on(addPlayers, (state, {nPlayer}) => ([ ...state, ...nPlayer] )),
+  on(addPlayers, (state, {nPlayer}) => {
+    return ([ ...state, ...nPlayer] )
+  }),
   on(addPlayer, (state, {nPlayer}) => ([ ...state.filter(
     (player) => player.name !== nPlayer.name
   ), nPlayer] )),
@@ -114,4 +116,14 @@ export const reducers: ActionReducerMap<State> = {
   numberRounds: numberRoundsReducer
 };
 
-export const metaReducers: MetaReducer<State>[] = !environment.production ? [] : [];
+export const resetReducer = (reducer: ActionReducer<State>): ActionReducer<State> => {
+  return (state, action) => {
+    if (action?.type === 'Reset') {
+      console.log("reset");
+      return reducer(initialState, {type: INIT});
+    }
+    return reducer(state, action);
+  };
+};
+
+export const metaReducers: MetaReducer<State>[] = [resetReducer];

@@ -37,12 +37,19 @@ import {InputComponent} from "./components/elements/input/input.component";
 import { BgDecorationComponent } from './components/elements/bg-decoration/bg-decoration.component';
 import { ScaleComponent } from './components/elements/scale/scale.component';
 import { AnswerCardComponent } from './components/elements/answer-card/answer-card.component';
+import {WaitComponent} from "./components/elements/wait/wait.component";
+import {LottieModule} from "ngx-lottie";
+import player from 'lottie-web';
 
 const config: SocketIoConfig = {
   url: environment.socketUrl,
   options: {
     transports: ['websocket']
   }
+}
+
+export function playerFactory() {
+  return player;
 }
 
 @NgModule({
@@ -73,6 +80,7 @@ const config: SocketIoConfig = {
     BgDecorationComponent,
     ScaleComponent,
     AnswerCardComponent,
+    WaitComponent
   ],
   imports: [
     BrowserModule,
@@ -83,8 +91,13 @@ const config: SocketIoConfig = {
     ReactiveFormsModule,
     AvatarGeneratorModule,
     DragDropModule,
+    LottieModule.forRoot({ player: playerFactory }),
     StoreModule.forRoot(reducers, {
-      metaReducers
+      metaReducers,
+      runtimeChecks: {
+        strictStateImmutability: true,
+        strictActionImmutability: true
+      }
     }),
   ],
   providers: [],

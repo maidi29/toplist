@@ -6,16 +6,15 @@
     <app-answering [myValue]="myValue" [maxValue]="players?.length" [question]="activeRound?.question" (sendText)="sendAnswer($event)"></app-answering>
   </ng-container>
   <ng-container *ngIf="state === ViewState.waitForOthers">
-    <div class="wait">
-      <div>Wait until all other players have submitted an answer and you can start revealing them</div>
-      <img src="https://media4.giphy.com/media/pFZTlrO0MV6LoWSDXd/200w.gif" width="200" alt="wait"/>
-    </div>
+    <app-wait>
+      Wait until all other players have submitted an answer and you can start revealing them
+    </app-wait>
   </ng-container>
   <ng-container *ngIf="state === ViewState.answersReveal || state === ViewState.sorting || state === ViewState.points">
     <h2>{{activeRound?.question?.text}}</h2>
-    <div class="answers">
+    <div class="results">
         <app-revealing-and-sorting [state]="state" (submitOrder)="onSubmitOrder()"></app-revealing-and-sorting>
-      </div>
+    </div>
   </ng-container>
     <ng-container *ngIf="state === ViewState.points">
       <app-button (click)="passToNextMaster()">
