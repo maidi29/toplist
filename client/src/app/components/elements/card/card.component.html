@@ -1,6 +1,3 @@
-<div class="card" [ngClass]="{correct}">
-  <ng-content select="[always-visible]"></ng-content>
-  <div class="hidden-content" [ngClass]="{show: !hidden}">
-    <ng-content select="[hidden-content]"></ng-content>
-  </div>
+<div class="card" [ngClass]="{clickable}">
+  <ng-content></ng-content>
 </div>

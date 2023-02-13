@@ -1,8 +1,42 @@
-app-card {
-  position: relative;
-  .value {
-    position: absolute;
-    right: 2rem;
-    top: 2rem;
+@use "src/theme";
+
+.header, .main {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.9rem;
+}
+
+.value {
+  font-size: 1rem;
+  opacity: 0;
+  animation: appear 1s forwards;
+  color: darken(theme.$colorSecondary,10);
+}
+
+.main {
+  font-size: 1.2rem;
+}
+
+.hidden-content {
+    opacity: 0;
+    &.show:not(.disable-animation) {
+      animation: appear 1s forwards;
+    }
+    &.disable-animation {
+      opacity: 1;
+    }
+}
+
+.icon {
+  font-size: 1.5rem;
+  margin-top: auto;
+  color: theme.$colorFail;
+  &.correct {
+    color: theme.$colorSuccess;
   }
+}
+
+@keyframes appear {
+  from { opacity: 0 }
+  to { opacity: 1 }
 }

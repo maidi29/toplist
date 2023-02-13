@@ -14,6 +14,9 @@ h2 {
 
 .results {
    @include mixins.width-responsive();
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
 }
 
 .answers {

@@ -34,11 +34,9 @@
   <div class="choose-container">
     <h3 class="divisor">Or choose from these topics</h3>
     <div class="suggestions">
-      <app-card *ngFor="let question of exampleQuestions" (click)="setQuestion(question.text, question.from, question.to, true)">
-        <ng-container always-visible>
+      <app-card *ngFor="let question of exampleQuestions" (click)="setQuestion(question.text, question.from, question.to, true)" [clickable]="true">
           <h3>{{question.text}}</h3>
           <div>From <b>{{question.from}}</b> to <b>{{question.to}}</b></div>
-        </ng-container>
       </app-card>
     </div>
     <app-button [secondary]="true" (click)="exampleQuestions = getNewRandomQuestions()">Get new topics</app-button>

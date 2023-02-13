@@ -19,7 +19,7 @@ export class PlayerViewComponent implements OnInit, OnDestroy {
   public players?: Player[];
   public ownPlayer?: Player;
   public sent = false;
-  public master = "Master";
+  public master = "Captain";
   public state: ViewState = ViewState.noQuestion;
   public myValue?: number;
   public answers?: Answer[];
@@ -67,7 +67,7 @@ export class PlayerViewComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.submitSubscription = this.socketService.onSubmitSorting().subscribe(()=> {
       this.state = ViewState.points;
-      this.answers?.reverse().forEach((answer, index) => {
+      this.answers?.forEach((answer, index) => {
         if((answer.value === index+1) && (answer.playerName !== this.master)) {
           this.store.dispatch(changeScore({name: answer.playerName, value: 1}));
           this.store.dispatch(changeScore({name: this.master, value: 1}));

@@ -86,7 +86,7 @@ export class MasterViewComponent {
 
   public onSubmitOrder() {
     this.state = MasterViewState.points;
-    this.activeRound?.answers?.reverse().forEach((answer, index) => {
+    this.activeRound?.answers?.forEach((answer, index) => {
       if((answer.value === index+1) && (answer.playerName !== this.ownPlayer?.name)) {
         this.store.dispatch(changeScore({name: answer.playerName, value: 1}));
         this.store.dispatch(changeScore({name: (this.ownPlayer?.name || ''), value: 1}));

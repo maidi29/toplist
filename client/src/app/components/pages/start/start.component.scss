@@ -15,11 +15,6 @@ h2 {
   text-align: center;
 }
 
-/*.start-gif {
-  width: 100%;
-  max-width: 300px;
-}*/
-
 .form {
   flex: 1;
   display: flex;
@@ -74,6 +69,11 @@ h2 {
 
 .how-it-works {
   max-width: 650px;
+  .screenshot {
+    border: 1px solid theme.$colorSecondary;
+    margin: 0.5rem 0;
+    padding: 1rem;
+  }
 }
 
 

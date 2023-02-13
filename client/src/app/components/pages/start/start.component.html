@@ -1,4 +1,4 @@
-<h2>Play together with your friends to find the order<br/> of abstruse thoughts on a given topic and scale.</h2>
+<h2>Play together with your friends to find the order<br/> of your creative thoughts on a given or self-designed topic and scale.</h2>
 <form [formGroup]="startForm" class="form">
   <div class="player-settings">
     <img *ngIf="avatar" [src]="avatar" (click)="showAvatarGenerator = true" class="avatar" alt="avatar"/>
@@ -34,17 +34,21 @@
 <div class="how-it-works">
   <app-collapsible header="How it works">
     <p>Toplist is a turn-based real-time party game for 4 to 10 players.</p>
-    <p>In each round another player is the master and thinks of a topic (or chooses from a selection of example
+    <p>In each round another player is the captain and thinks of a topic (or chooses from a selection of example
       topics) to which the players must find an example according to their assigned value on a scale.</p>
-    <p>An example question could be "What is the perfect first date activity - from 1 (Horror date) to 10 (Dream date)"</p>
-    <p>As soon as all players have submitted an answer, the master starts to reveal them. Then he sorts the answers on the
-      scale so, with the aim of guessing the correct order.
+    <p>An example question could be "What is the perfect first date activity - from 1 (Horror date) to 10 (Dream date)?"</p>
+    <p>As soon as all players have submitted an answer, the captain starts to reveal them. Then he sorts the answers on the
+      scale, with the aim of guessing the correct order.
       After that, the true values of the players are revealed.
-      For each correctly assigned answer the master receives one point and the player who gave the answer also receives one point
-      Afterwards, the role of the master
-      changes to the next player, whose turn it is to think up a question.</p>
-    <p>The game ends as soon as each player has been master as many times as defined in the number of runs at the
+      For each correctly assigned answer the captain receives one point (except their own answer) and the player who gave the answer also receives one point
+      Afterwards, the role of the captain changes to the next player, whose turn it is to think up a topic.</p>
+    <p>The game ends as soon as each player has been captain as many times as defined in the number of runs at the
       beginning.</p>
+    <p>
+      <img class="screenshot" width="100%" src="assets/images/toplist1.png">
+      <img class="screenshot" width="100%" src="assets/images/toplist2.png">
+      <img class="screenshot" width="100%" src="assets/images/toplist6.png">
+    </p>
   </app-collapsible>
 </div>
 <app-avatar-generator [show]="showAvatarGenerator" (avatar)="updateAvatar($event)" (close)="showAvatarGenerator = false"></app-avatar-generator>

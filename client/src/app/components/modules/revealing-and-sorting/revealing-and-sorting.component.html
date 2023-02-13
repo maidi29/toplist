@@ -24,6 +24,7 @@
                          [playerName]="item.playerName"
                          [value]="state === ViewState.points ? item.value : undefined"
                          [text]="item.text"
+                         [disableAnimation]="state !== ViewState.answersReveal"
         ></app-answer-card>
       </div>
     </div>

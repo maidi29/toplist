@@ -1,10 +1,13 @@
-<app-card [hidden]="hidden"
-          [correct]="correct">
-  <ng-container always-visible>
+<app-card [clickable]="clickable">
+  <div class="header">
     <div class="name">{{playerName}}</div>
     <div class="value" *ngIf="value">{{value}}</div>
-  </ng-container>
-  <div hidden-content>
-    {{text}}
+  </div>
+  <div class="main hidden-content" [ngClass]="{show: !hidden, 'disable-animation': disableAnimation}">
+    <div class="text">{{text}}</div>
+    <div class="icon" [ngClass]="{correct}" *ngIf="value">
+      <ng-container *ngIf="correct">✔</ng-container>
+      <ng-container *ngIf="!correct">✘</ng-container>
+    </div>
   </div>
 </app-card>
