@@ -2,10 +2,13 @@
 
 ### 🎮 https://www.toplist-game.com 🎮
 
+Toplist is a turn-based real-time party game. In each round another player is the
+captain and thinks of a topic and a scale to which the players must find an answer matching their given value on the scale.
+The captain then tries to find the correct order of the answers.
+
 ![toplist create topic](client/src/assets/images/toplist1.png)
 ![toplist answering](client/src/assets/images/toplist2.png)
 ![toplist sorting](client/src/assets/images/toplist6.png)
-
 
 Toplist is a turn-based real-time party game for 4 to 10 players.
 In each round another player is the captain and thinks of a topic (or chooses from a selection of example
