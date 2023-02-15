@@ -16,9 +16,9 @@ export class SetQuestionComponent implements OnInit {
   public exampleQuestions: Question[] = [];
 
   public setQuestionForm = new FormGroup({
-    questionText: new FormControl('', [Validators.required, Validators.maxLength(100)]),
-    from: new FormControl('Worst', [Validators.required, Validators.maxLength(50)]),
-    to: new FormControl('Best', [Validators.required, Validators.maxLength(50)]),
+    questionText: new FormControl('', [Validators.required, Validators.maxLength(200)]),
+    from: new FormControl('Worst', [Validators.required, Validators.maxLength(80)]),
+    to: new FormControl('Best', [Validators.required, Validators.maxLength(80)]),
   });
 
   constructor(private store: Store<State>, private socketService: SocketService) {}

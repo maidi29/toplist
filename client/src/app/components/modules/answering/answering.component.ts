@@ -24,8 +24,8 @@ export class AnsweringComponent implements OnInit {
     this.text = this.text.trim();
     if(this.text.length === 0) {
       this.error = "Please enter an answer"
-    } else if (this.text.length > 200) {
-      this.error = "Please enter a maximum of 200 characters"
+    } else if (this.text.length > 250) {
+      this.error = "Please enter a maximum of 250 characters"
     }
     if(!this.error) {
       this.sendText.emit(this.text.trim());

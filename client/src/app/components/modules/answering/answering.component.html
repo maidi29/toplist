@@ -9,7 +9,7 @@
 </div>
 <h2>{{question?.text}}</h2>
 <app-textarea class="textarea" placeholder="Add your answer here"
-              [(ngModel)]="text" [rows]="4" [maxlength]="200"
+              [(ngModel)]="text" [rows]="4" [maxlength]="250"
               (ngModelChange)="error = undefined" [errorMessage]="error"
 ></app-textarea>
 <app-button (click)="sendAnswer()">Submit</app-button>

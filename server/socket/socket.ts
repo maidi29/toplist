@@ -36,7 +36,7 @@ module.exports = (io) => {
                     (r) => r !== socket.id
                 );
 
-                if (socketRooms.length > 10 || (connectedSockets && connectedSockets.size >= 11 )) {
+                if (socketRooms.length > 15 || (connectedSockets && connectedSockets.size >= 16 )) {
                     socket.emit(SOCKET_EVENTS.JOIN_ROOM_ERROR, {
                         error: "full",
                         controlName: "gameId",
