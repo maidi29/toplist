@@ -1,5 +1,4 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
-import {Answer} from "../../../model/round.model";
 import {Question} from "../../../constants/QUESTIONS";
 
 @Component({
