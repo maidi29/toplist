@@ -15,12 +15,6 @@ export class SetQuestionComponent implements OnInit {
   @Input() playersCount? = 1;
   public exampleQuestions: Question[] = [];
 
-  public setQuestionForm = new FormGroup({
-    questionText: new FormControl('', [Validators.required, Validators.maxLength(200)]),
-    from: new FormControl('Worst', [Validators.required, Validators.maxLength(80)]),
-    to: new FormControl('Best', [Validators.required, Validators.maxLength(80)]),
-  });
-
   constructor(private store: Store<State>, private socketService: SocketService) {}
 
   ngOnInit(): void {
@@ -34,18 +28,8 @@ export class SetQuestionComponent implements OnInit {
     return [QUESTIONS[s1],QUESTIONS[s2],QUESTIONS[s3]];
   }
 
-  public setQuestion(text: string, from: string, to: string, isExample: boolean) {
-    if(!isExample) {
-      this.setQuestionForm.markAllAsTouched();
-    }
-    if((!isExample && this.setQuestionForm.valid) || isExample) {
-      const question =  {
-        text: text.trim(),
-        from: from.trim(),
-        to: to.trim()
-      };
+  public setQuestion(question: Question) {
       this.store.dispatch(setQuestion({question}));
       this.socketService.setListTopic(question);
-    }
   }
 }

@@ -1,3 +1,5 @@
+@use "src/theme";
+
 .drop {
   position: fixed;
   background-color: rgba(0, 0, 0, 0.6);
@@ -9,7 +11,7 @@
   justify-content: center;
   align-items: center;
   .modal {
-    background: #fff;
+    background: theme.$colorPrimary;
     box-shadow: 0 1px 1px rgba(0, 0, 0, 0.15);
     max-height: calc(100% - 2rem);
     max-width: calc(100% - 2rem);
