@@ -1,12 +1,20 @@
 import {Component, Input} from '@angular/core';
-import {addQuestionsToAllQuestions, setNewRound, setNumberRounds, State} from "../../../reducers/reducers";
+import {replaceAnswers, setAllQuestions, setNewRound, setNumberRounds, State} from "../../../reducers/reducers";
 import {Store} from "@ngrx/store";
 import {SocketService} from "../../../services/socket.service";
 import {Player} from "../../../model/player.model";
 import {shuffleArray} from "../../../util";
 import {FormControl, FormGroup, Validators} from "@angular/forms";
 import {Question} from "../../../constants/QUESTIONS";
+import {CdkDragDrop, moveItemInArray} from "@angular/cdk/drag-drop";
+import {Answer} from "../../../model/round.model";
 
+const DEFAULT_QUESTION = {
+    text: '',
+    from: 'Worst',
+    to: 'Best',
+    open: true
+  }
 @Component({
   selector: 'app-before-start-master',
   templateUrl: './before-start-master.component.html',
@@ -18,7 +26,7 @@ export class BeforeStartMasterComponent {
   public players?: Player[];
   public allQuestions?: Question[];
   public openPredefinedModal = false;
-  public questionsToDefine = 1;
+  public allQuestionsUnsubmitted = [{...DEFAULT_QUESTION}]
 
   public questionModeForm = new FormGroup({
     questionMode: new FormControl('default', [Validators.required]),
@@ -58,8 +66,29 @@ export class BeforeStartMasterComponent {
     }
   }
 
-  public addQuestion(question: Question) {
-    this.store.dispatch(addQuestionsToAllQuestions({questions: [question]}));
+  public addQuestions() {
+    const toAdd: Question[] = this.allQuestionsUnsubmitted.filter(({open})=>!open).map(
+      ({text, from, to})=>({text, from, to}));
+    this.store.dispatch(setAllQuestions({questions: toAdd}));
+  }
+
+  public onSubmitQuestion(question: Question) {
+
+  }
+
+  public removeQuestion(index: number) {
+    if(this.allQuestionsUnsubmitted.length <= 1) {
+      this.addUnsubmitted();
+    }
+    this.allQuestionsUnsubmitted = this.allQuestionsUnsubmitted.filter((q, i)=> i !== index);
+  }
+
+  public addUnsubmitted() {
+    this.allQuestionsUnsubmitted.push({...DEFAULT_QUESTION});
+  }
+
+  public drop(event: CdkDragDrop<{ text: string; from: string; to: string; open: boolean; }[]>) {
+    moveItemInArray(this.allQuestionsUnsubmitted, event.previousIndex, event.currentIndex);
   }
 
 }

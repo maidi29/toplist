@@ -33,7 +33,7 @@ export const addAnswer = createAction('Add Answer', props<{answer: Answer}>());
 export const setRoom = createAction('Set Room', props<{room: string}>());
 export const flipAnswer = createAction('Flip Answer', props<{playerName: string}>());
 export const setNumberRounds = createAction('Set Number Rounds', props<{number: number}>());
-export const addQuestionsToAllQuestions = createAction('Add Questions to all Questions', props<{questions: Question[]}>());
+export const setAllQuestions = createAction('Add Questions to all Questions', props<{questions: Question[]}>());
 export const replaceAnswers = createAction('Replace Answers', props<{answers: Answer[]}>());
 export const reset = createAction('Reset');
 
@@ -113,7 +113,7 @@ export const numberRoundsReducer = createReducer(
 
 export const allQuestionsReducer = createReducer(
   initialState.allQuestions,
-  on(addQuestionsToAllQuestions, (state, {questions}) => [...state || [], ...questions]),
+  on(setAllQuestions, (state, {questions}) => questions),
 );
 
 export const reducers: ActionReducerMap<State> = {

@@ -1,4 +1,5 @@
 @use "./src/theme";
+@use "./src/mixins";
 
 .before-start {
   text-align: center;
@@ -63,7 +64,6 @@
   &.checked:before {
       transform: scale(1);
   }
-
 }
 
 .predefined-label {
@@ -74,16 +74,6 @@
     display: flex;
     gap: 1rem;
     align-items: center;
-    button {
-      font-family: theme.$fontFamily;
-      font-size: 1rem;
-      background: theme.$colorSecondary;
-      color: theme.$colorTertiary;
-      font-weight: bold;
-      border: 1px solid theme.$colorTertiary;
-      padding: 0.5rem;
-      cursor: pointer;
-    }
   }
 }
 
@@ -93,4 +83,94 @@
   gap: 1rem;
   align-items: center;
   cursor: pointer;
+  label {
+    opacity: 0.6;
+  }
+  .checked ~ label {
+    opacity: 1;
+  }
+}
+
+.secondary {
+    font-family: theme.$fontFamily;
+    font-size: 1rem;
+    background: theme.$colorSecondary;
+    color: theme.$colorTertiary;
+    font-weight: bold;
+    border: 1px solid theme.$colorTertiary;
+    padding: 0.5rem;
+    cursor: pointer;
+}
+
+.modal-content {
+  @include mixins.width-responsive();
+  padding: 2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  align-items: center;
+}
+
+.modal-footer {
+  position: sticky;
+  padding: 1rem 3rem;
+  background: lighten(theme.$colorPrimary,8);
+  bottom: 0;
+  width: 100%;
+}
+
+.closed-question {
+  border: 2px solid lighten(theme.$colorPrimary,8);
+  padding: 1rem;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  cursor: pointer;
+  background: theme.$colorPrimary;
+  gap: 1rem;
+}
+
+.button-container {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.icon {
+  border-radius: 50%;
+  width: 3rem;
+  display: flex;
+  path {
+    fill: theme.$colorTertiary;
+  }
+}
+
+.drop-container {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  width: 100%
+}
+
+.cdk-drag-preview {
+  box-sizing: border-box;
+  box-shadow: 0 5px 5px -3px rgba(0, 0, 0, 0.8),
+  0 8px 10px 1px rgba(0, 0, 0, 0.6),
+  0 3px 14px 2px rgba(0, 0, 0, 0.5);
+}
+
+.cdk-drag-placeholder {
+  opacity: 0;
+}
+
+.cdk-drag-animating {
+  transition: transform 250ms cubic-bezier(0, 0, 0.2, 1);
+}
+
+.drag-box:last-child {
+  border: none;
+}
+
+.drop-list.cdk-drop-list-dragging .drag-box:not(.cdk-drag-placeholder) {
+  transition: transform 250ms cubic-bezier(0, 0, 0.2, 1);
 }
