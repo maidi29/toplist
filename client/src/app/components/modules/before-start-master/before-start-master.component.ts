@@ -16,8 +16,8 @@ import {Answer} from "../../../model/round.model";
 export class BeforeStartMasterComponent {
   @Input() roomId?: string;
 
-  public players?: Player[];
-  public allQuestions?: Question[];
+  @Input() players?: Player[];
+  @Input() allQuestions?: Question[];
   public openPredefinedModal = false;
 
   public errorNumberRuns = "";
@@ -25,20 +25,16 @@ export class BeforeStartMasterComponent {
 
   public questionModeForm = new FormGroup({
     questionMode: new FormControl('default', [Validators.required]),
-    numberRuns: new FormControl('3', [Validators.required]),
+    numberRuns: new FormControl('3', [Validators.required, Validators.min(1)]),
   });
 
   constructor(private store: Store<State>, private socketService: SocketService) {
-    store.select("players").subscribe((players) => {
-      this.players = players;
-    });
-    store.select("allQuestions").subscribe((allQuestions) => {
-      this.allQuestions = allQuestions;
-    });
   }
 
   ngOnInit() {
     this.questionModeForm.controls.questionMode.registerOnChange(()=> {
+      this.errorNumberRuns = '';
+      this.errorQuestions = '';
       if(this.questionModeForm.controls.questionMode.value === 'predefined') {
         this.questionModeForm.controls.numberRuns.removeValidators([Validators.required, Validators.min(1)]);
       } else {
@@ -52,9 +48,11 @@ export class BeforeStartMasterComponent {
 
   public startNewRound() {
     let isValid = false;
+    let isDefault = true;
     if(this.questionModeForm.controls.questionMode.value === 'predefined') {
       if((this.allQuestions?.length || 0) > 0) {
         isValid = true;
+        isDefault = false;
       } else {
         this.errorQuestions = 'Please define at least one topic or choose default mode.'
       }
@@ -67,14 +65,20 @@ export class BeforeStartMasterComponent {
     }
     if(isValid) {
       const newRound = {
-        values: shuffleArray(this.players?.map(({name}) => name) || [])
+        values: shuffleArray(this.players?.map(({name}) => name) || []),
+        ...(!isDefault && this.allQuestions && (this.allQuestions?.length || 0) > 0 && { question: this.allQuestions[0]})
       };
       this.store.dispatch(setNewRound({nRound: newRound}));
       this.socketService.setRound(newRound);
-      if (this.players && this.questionModeForm.controls.numberRuns.value) {
+      if (this.players && this.questionModeForm.controls.numberRuns.value && isDefault) {
         const number = this.getNumberRounds();
         this.store.dispatch(setNumberRounds({number}));
         this.socketService.setNumberRounds(number);
+        this.store.dispatch(setAllQuestions({questions: []}));
+      } else if (!isDefault && this.allQuestions) {
+        this.socketService.setAllQuestions(this.allQuestions);
+        this.store.dispatch(setNumberRounds({number: this.allQuestions.length}));
+        this.socketService.setNumberRounds(this.allQuestions.length);
       }
     }
   }

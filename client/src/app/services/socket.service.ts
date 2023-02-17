@@ -104,4 +104,12 @@ export class SocketService {
   onSetNumberRounds(): Observable<number> {
     return this.socket.fromEvent(SOCKET_EVENTS.SET_NUMBER_ROUNDS);
   }
+
+  setAllQuestions(allQuestions: Question[]): void {
+    this.socket.emit(SOCKET_EVENTS.SET_ALL_QUESTIONS, allQuestions);
+  }
+
+  onSetAllQuestions(): Observable<Question[]> {
+    return this.socket.fromEvent(SOCKET_EVENTS.SET_ALL_QUESTIONS);
+  }
 }

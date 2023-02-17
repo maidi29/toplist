@@ -13,10 +13,14 @@
                formControlName="questionMode" class="radio" [ngClass]="{
                'checked': questionModeForm.controls.questionMode.value === 'default'
                }" >
-        <label for="default">Default: Play
-          <input maxlength="2" type="number" step="1" formControlName="numberRuns" class="number-runs"/>
-          full runs where every captain defines a topic per round and guesses the order of the answers.
-          <div class="error">{{errorNumberRuns}}</div>
+        <label for="default" class="label">
+          <div>Default: Play
+            <input maxlength="2" type="number" step="1" formControlName="numberRuns" class="number-runs"/>
+            full runs where every captain defines a topic per round and guesses the order of the answers.
+          </div>
+          <div class="error">
+            {{errorNumberRuns}}
+          </div>
         </label>
       </div>
        <div class="radio-container">
@@ -24,11 +28,11 @@
                formControlName="questionMode" class="radio" [ngClass]="{
                'checked': questionModeForm.controls.questionMode.value === 'predefined'
                }" >
-        <label for="predefined" class="predefined-label">
+        <label for="predefined" class="label">
           <div>Create a pre-defined custom game where you set all topics now.
             The current captain guesses the order of the answers.</div>
           <div class="predefined-info">
-            {{(allQuestions|| []).length}} topics defined
+            {{(allQuestions|| []).length}} {{(allQuestions|| []).length === 1 ? 'topic' : 'topics'}} defined
             <button class="secondary"
                     (click)="
                     questionModeForm.controls.questionMode.setValue('predefined');
@@ -38,7 +42,9 @@
               {{(allQuestions || []).length <= 0 ? 'Add' : 'Change'}}
             </button>
           </div>
-          <div class="error">{{errorQuestions}}</div>
+          <div class="error">
+            {{errorQuestions}}
+          </div>
         </label>
       </div>
   </form>
@@ -47,16 +53,20 @@
     <div>Has everyone joined?</div>
     <div *ngIf="(players?.length || 0) < 4">It's recommended to play with at least 4 players</div>
     <app-button (click)="startNewRound()" [autoWidth]="true">Start</app-button>
-    <div>with {{players?.length}} players and
+    <div>with {{players?.length}} {{players?.length === 1 ? 'player' : 'players'}} and
       <ng-container *ngIf="questionModeForm.controls.questionMode.value === 'default'">
-        {{questionModeForm.controls.numberRuns.value}} runs (= {{getNumberRounds()}} rounds)
+        {{questionModeForm.controls.numberRuns.value}}
+        {{questionModeForm.controls.numberRuns.value == '1' ? 'run' : 'runs'}}
+        (= {{getNumberRounds()}} {{getNumberRounds() === 1 ? 'round' : 'rounds'}})
       </ng-container>
       <ng-container *ngIf="questionModeForm.controls.questionMode.value === 'predefined'">
-        {{(allQuestions|| []).length}} topics
+        {{(allQuestions|| []).length}} {{(allQuestions|| []).length === 1 ? 'topic' : 'topics'}}
       </ng-container>
     </div>
   </div>
 </div>
 <app-modal *ngIf="openPredefinedModal">
- <app-predefine-questions [playersCount]="(players?.length ||0)+1" (close)="openPredefinedModal=false"></app-predefine-questions>
+ <app-predefine-questions [playersCount]="(players?.length ||0)+1"
+                          [allQuestions]="allQuestions"
+                          (close)="openPredefinedModal=false"></app-predefine-questions>
 </app-modal>

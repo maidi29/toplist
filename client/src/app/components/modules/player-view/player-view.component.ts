@@ -1,4 +1,4 @@
-import {Component, OnDestroy, OnInit} from '@angular/core';
+import {Component, Input, OnChanges, OnDestroy, OnInit, SimpleChanges} from '@angular/core';
 import {Answer, Round} from "../../../model/round.model";
 import {Store} from "@ngrx/store";
 import {addAnswer, changeScore, State} from "../../../reducers/reducers";
@@ -13,55 +13,19 @@ enum ViewState { noQuestion, thinkOfAnswer, waitForOthers, reveal, sorting, poin
   templateUrl: './player-view.component.html',
   styleUrls: ['./player-view.component.scss']
 })
-export class PlayerViewComponent implements OnInit, OnDestroy {
+export class PlayerViewComponent implements OnInit, OnDestroy, OnChanges {
   public ViewState = ViewState;
-  public activeRound?: Round;
-  public players?: Player[];
-  public ownPlayer?: Player;
+  @Input() activeRound?: Round;
+  @Input() players?: Player[];
+  @Input() ownPlayer?: Player;
   public sent = false;
-  public master = "Captain";
+  @Input() master = "Captain";
   public state: ViewState = ViewState.noQuestion;
   public myValue?: number;
   public answers?: Answer[];
   private submitSubscription: Subscription = new Subscription();
 
   constructor(private store: Store<State>, private socketService: SocketService) {
-    store.select("activeRound").subscribe((activeRound) => {
-      if(this.activeRound?.index !== activeRound?.index) {
-        // reset on new round
-        this.sent = false;
-        this.myValue = undefined;
-      }
-      if(!this.myValue && this.activeRound?.values && this.activeRound?.values.length > 0) {
-        this.myValue = (activeRound?.values?.findIndex(name => name===this.ownPlayer?.name) || 0) + 1;
-      }
-      const notAllHaveAnswered = this.players && activeRound?.answers && activeRound.answers.length < this.players.length;
-      const allAnswersFlipped = activeRound?.flippedAnswers?.size === this.players?.length;
-      if(!activeRound?.question) {
-        this.state = ViewState.noQuestion;
-      } else if(activeRound?.question && !this.sent) {
-        this.state = ViewState.thinkOfAnswer;
-      } else if(activeRound?.answers && this.sent && notAllHaveAnswered) {
-        this.state = ViewState.waitForOthers;
-      } else if(!allAnswersFlipped) {
-        this.state = ViewState.reveal;
-      } else if (allAnswersFlipped) {
-        this.state = ViewState.sorting;
-      }
-      if(allAnswersFlipped && activeRound?.answers) {
-        // mutate original array for transition
-        this.answers?.sort((a, b) => (activeRound.answers?.map(item => item.playerName).indexOf(a.playerName) || 0) -
-            (activeRound.answers?.map(item => item.playerName).indexOf(b.playerName) || 1));
-      } else {
-        this.answers = [...activeRound?.answers || []];
-      }
-      this.activeRound = activeRound;
-    });
-    store.select("players").subscribe((players) => {
-      this.players = players;
-      this.ownPlayer = players.find(({isSelf}) => !!isSelf);
-      this.master = players.find(({isMaster})=>isMaster)?.name || "Master";
-    });
   }
 
   ngOnInit() {
@@ -78,6 +42,37 @@ export class PlayerViewComponent implements OnInit, OnDestroy {
 
   ngOnDestroy() {
     this.submitSubscription.unsubscribe()
+  }
+
+  ngOnChanges(changes: SimpleChanges) {
+    if(changes['activeRound'].previousValue?.index !== changes['activeRound'].currentValue?.index) {
+      // reset on new round
+      this.sent = false;
+      this.myValue = undefined;
+    }
+    if(!this.myValue && this.activeRound?.values && this.activeRound?.values.length > 0) {
+      this.myValue = (this.activeRound?.values?.findIndex(name => name===this.ownPlayer?.name) || 0) + 1;
+    }
+    const notAllHaveAnswered = this.players && this.activeRound?.answers && this.activeRound.answers.length < this.players.length;
+    const allAnswersFlipped = this.activeRound?.flippedAnswers?.size === this.players?.length;
+    if(!this.activeRound?.question) {
+      this.state = ViewState.noQuestion;
+    } else if(this.activeRound?.question && !this.sent) {
+      this.state = ViewState.thinkOfAnswer;
+    } else if(this.activeRound?.answers && this.sent && notAllHaveAnswered) {
+      this.state = ViewState.waitForOthers;
+    } else if(!allAnswersFlipped) {
+      this.state = ViewState.reveal;
+    } else if (allAnswersFlipped) {
+      this.state = ViewState.sorting;
+    }
+    if(allAnswersFlipped && this.activeRound?.answers) {
+      // mutate original array for transition
+      this.answers?.sort((a, b) => (this.activeRound?.answers?.map(item => item.playerName).indexOf(a.playerName) || 0) -
+        (this.activeRound?.answers?.map(item => item.playerName).indexOf(b.playerName) || 1));
+    } else {
+      this.answers = [...this.activeRound?.answers || []];
+    }
   }
 
   public sendAnswer(text: string) {

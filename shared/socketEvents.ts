@@ -12,4 +12,5 @@ export enum SOCKET_EVENTS {
     PLAYER_LEFT = 'playerLeft',
     SET_NUMBER_ROUNDS = 'setNumberRounds',
     CHANGE_SORTING = 'changeSorting',
+    SET_ALL_QUESTIONS = 'setAllQuestions',
 }

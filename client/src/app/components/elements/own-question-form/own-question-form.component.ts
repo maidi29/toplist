@@ -9,6 +9,7 @@ import {FormControl, FormGroup, Validators} from "@angular/forms";
 })
 export class OwnQuestionFormComponent implements OnChanges {
   @Input() playersCount?: number = 1;
+  @Input() submitTitle: string = "Submit";
   @Input() prefillQuestion?: string = '';
   @Input() prefillFrom?: string = 'Worst';
   @Input() prefillTo?: string = 'Best';
@@ -37,6 +38,4 @@ export class OwnQuestionFormComponent implements OnChanges {
       this.validSumbit.emit(question);
     }
   }
-
-
 }

@@ -24,6 +24,6 @@
     ></app-input>
   </div>
   <app-button (click)="setQuestion(setQuestionForm.controls.questionText.value || '',setQuestionForm.controls.from.value || '', setQuestionForm.controls.to.value || '')">
-    Submit
+    {{submitTitle}}
   </app-button>
 </form>

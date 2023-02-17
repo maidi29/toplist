@@ -1,4 +1,4 @@
-import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
+import {Component, EventEmitter, Input, OnChanges, OnInit, Output} from '@angular/core';
 import {CdkDragDrop, moveItemInArray} from "@angular/cdk/drag-drop";
 import {Answer, Round} from "../../../model/round.model";
 import {flipAnswer, replaceAnswers, State} from "../../../reducers/reducers";
@@ -11,24 +11,21 @@ import {MasterViewState} from "../master-view/master-view.component";
   templateUrl: './revealing-and-sorting.component.html',
   styleUrls: ['./revealing-and-sorting.component.scss']
 })
-export class RevealingAndSortingComponent implements OnInit {
+export class RevealingAndSortingComponent implements OnChanges {
   @Input() state: MasterViewState = MasterViewState.answersReveal;
   @Output() submitOrder: EventEmitter<void> = new EventEmitter<void>();
   public ViewState = MasterViewState;
 
-  public activeRound?: Round;
+  @Input() activeRound?: Round;
   public answers: Answer[] = [];
 
   constructor(private store: Store<State>, private socketService: SocketService) {
-    store.select("activeRound").subscribe((activeRound) => {
-      this.activeRound = activeRound;
-      if(activeRound?.answers) {
-        this.answers = [...activeRound?.answers];
-      }
-    });
   }
 
-  ngOnInit(): void {
+  ngOnChanges(): void {
+    if(this.activeRound?.answers) {
+      this.answers = [...this.activeRound?.answers];
+    }
   }
 
   public drop(event: CdkDragDrop<Answer[]>) {

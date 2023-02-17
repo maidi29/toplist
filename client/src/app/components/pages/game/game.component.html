@@ -2,15 +2,23 @@
 <div class="main-view">
   <ng-container *ngIf="ownPlayer?.isMaster; else playerView">
     <ng-container *ngIf="!activeRound; else masterView">
-      <app-before-start-master [roomId]="roomId"></app-before-start-master>
+      <app-before-start-master [roomId]="roomId" [players]="players"
+                               [allQuestions]="allQuestions"></app-before-start-master>
     </ng-container>
 
     <ng-template #masterView>
-      <app-master-view></app-master-view>
+      <app-master-view [activeRound]="activeRound"
+                       [allQuestions]="allQuestions"
+                       [numberRounds]="numberRounds"
+                       [players]="players"
+                       [ownPlayer]="ownPlayer"
+      ></app-master-view>
     </ng-template>
   </ng-container>
 
   <ng-template #playerView>
-    <app-player-view></app-player-view>
+    <app-player-view [activeRound]="activeRound" [ownPlayer]="ownPlayer"
+                     [players]="players" [master]="master"
+    ></app-player-view>
   </ng-template>
 </div>

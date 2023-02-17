@@ -51,6 +51,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
+  cursor: pointer;
   &:before {
     content: "";
     width: 75%;
@@ -66,10 +67,11 @@
   }
 }
 
-.predefined-label {
+.label {
   display: flex;
   flex-direction: column;
   gap: 0.5rem;
+  cursor: pointer;
   .predefined-info {
     display: flex;
     gap: 1rem;
@@ -107,4 +109,7 @@
     }
 }
 
+.error {
+  color: darken(theme.$colorTertiary,10);
+}
 

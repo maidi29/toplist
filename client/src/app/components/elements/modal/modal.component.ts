@@ -1,9 +1,11 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
+import {fadeIn} from "../../../util/animations";
 
 @Component({
   selector: 'app-modal',
   templateUrl: './modal.component.html',
-  styleUrls: ['./modal.component.scss']
+  styleUrls: ['./modal.component.scss'],
+  animations: [fadeIn]
 })
 export class ModalComponent implements OnInit, OnDestroy {
 

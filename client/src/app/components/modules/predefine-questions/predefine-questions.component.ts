@@ -1,11 +1,15 @@
-import {Component, EventEmitter, Input, Output} from '@angular/core';
+import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {Question} from "../../../constants/QUESTIONS";
 import {setAllQuestions, State} from "../../../reducers/reducers";
 import {CdkDragDrop, moveItemInArray} from "@angular/cdk/drag-drop";
 import {Store} from "@ngrx/store";
 import {fadeIn} from "../../../util/animations";
 
-const DEFAULT_QUESTION = {
+interface UnsubmittedQuestion extends Question{
+  open: boolean
+}
+
+const DEFAULT_QUESTION: UnsubmittedQuestion = {
   text: '',
   from: 'Worst',
   to: 'Best',
@@ -17,12 +21,21 @@ const DEFAULT_QUESTION = {
   styleUrls: ['./predefine-questions.component.scss'],
   animations: [fadeIn]
 })
-export class PredefineQuestionsComponent {
+export class PredefineQuestionsComponent implements OnInit{
   @Input() playersCount = 1;
   @Output() close: EventEmitter<void> = new EventEmitter<void>();
-  public allQuestionsUnsubmitted = [{...DEFAULT_QUESTION}];
+  public allQuestionsUnsubmitted: UnsubmittedQuestion[] = [];
+  @Input() allQuestions?: Question[] = [];
 
   constructor(private store: Store<State>) {
+  }
+
+  ngOnInit() {
+    if(this.allQuestions && this.allQuestions.length > 0) {
+      this.allQuestionsUnsubmitted = [...this.allQuestions.map((quest) =>
+        ({...quest, open: false}))];
+    }
+    this.allQuestionsUnsubmitted.push({...DEFAULT_QUESTION});
   }
 
 
@@ -43,7 +56,7 @@ export class PredefineQuestionsComponent {
     this.allQuestionsUnsubmitted.push({...DEFAULT_QUESTION});
   }
 
-  public drop(event: CdkDragDrop<{ text: string; from: string; to: string; open: boolean; }[]>) {
+  public drop(event: CdkDragDrop<UnsubmittedQuestion[]>) {
     moveItemInArray(this.allQuestionsUnsubmitted, event.previousIndex, event.currentIndex);
   }
 
@@ -52,7 +65,6 @@ export class PredefineQuestionsComponent {
     this.allQuestionsUnsubmitted[index].from= question.from;
     this.allQuestionsUnsubmitted[index].to= question.to;
     this.allQuestionsUnsubmitted[index].open = false;
-    console.log(this.allQuestionsUnsubmitted);
   }
 
 }
