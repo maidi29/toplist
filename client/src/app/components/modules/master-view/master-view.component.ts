@@ -59,16 +59,16 @@ export class MasterViewComponent implements OnChanges {
   }
 
   public passToNextMaster() {
+    let newPredefinedQuestion;
+    if(this.allQuestions && this.activeRound?.index && this.allQuestions.length > 0) {
+      newPredefinedQuestion = this.allQuestions[this.activeRound?.index];
+    }
     const newRound = {
       values: shuffleArray(this.players?.map(({name}) => name) || []),
+      ...newPredefinedQuestion && {question: newPredefinedQuestion}
     }
     this.store.dispatch(setNewRound({nRound: newRound}));
     this.socketService.setRound(newRound);
-    if(this.allQuestions && this.activeRound?.index && this.allQuestions.length > 0) {
-      const newPredefinedQuestion = this.allQuestions[this.activeRound?.index];
-      this.store.dispatch(setQuestion({question: newPredefinedQuestion}));
-      this.socketService.setListTopic(newPredefinedQuestion);
-    }
     if(this.players) {
       const myIndex = this.players.findIndex((player) => player.isMaster);
       const newMaster = this.players[(myIndex+1) % this.players.length];
