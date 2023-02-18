@@ -54,7 +54,7 @@ export class BeforeStartMasterComponent {
         isValid = true;
         isDefault = false;
       } else {
-        this.errorQuestions = '⚠ Please define at least one topic or choose default mode.'
+        this.errorQuestions = '⚠ Please define at least 1 topic or choose default mode.'
       }
     } else {
       if(this.questionModeForm.valid) {
