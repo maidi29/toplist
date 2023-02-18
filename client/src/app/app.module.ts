@@ -40,6 +40,8 @@ import { AnswerCardComponent } from './components/elements/answer-card/answer-ca
 import {WaitComponent} from "./components/elements/wait/wait.component";
 import {LottieModule} from "ngx-lottie";
 import player from 'lottie-web';
+import { OwnQuestionFormComponent } from './components/elements/own-question-form/own-question-form.component';
+import { PredefineQuestionsComponent } from './components/modules/predefine-questions/predefine-questions.component';
 
 const config: SocketIoConfig = {
   url: environment.socketUrl,
@@ -80,7 +82,9 @@ export function playerFactory() {
     BgDecorationComponent,
     ScaleComponent,
     AnswerCardComponent,
-    WaitComponent
+    WaitComponent,
+    OwnQuestionFormComponent,
+    PredefineQuestionsComponent
   ],
   imports: [
     BrowserModule,

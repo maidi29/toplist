@@ -13,7 +13,7 @@
   <ng-container *ngIf="state === ViewState.answersReveal || state === ViewState.sorting || state === ViewState.points">
     <h2>{{activeRound?.question?.text}}</h2>
     <div class="results">
-        <app-revealing-and-sorting [state]="state" (submitOrder)="onSubmitOrder()"></app-revealing-and-sorting>
+        <app-revealing-and-sorting [state]="state" [activeRound]="activeRound" (submitOrder)="onSubmitOrder()"></app-revealing-and-sorting>
     </div>
   </ng-container>
     <ng-container *ngIf="state === ViewState.points">

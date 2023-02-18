@@ -1,18 +1,20 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import {Store} from "@ngrx/store";
-import {reset, State} from "../../../reducers/reducers";
+import {removePlayer, softReset, State} from "../../../reducers/reducers";
 import {Player} from "../../../model/player.model";
 import {ROUTES} from "../../../app-routing.module";
 import {Router} from "@angular/router";
 import {SocketService} from "../../../services/socket.service";
+import {Subscription} from "rxjs";
 
 @Component({
   selector: 'app-results',
   templateUrl: './results.component.html',
   styleUrls: ['./results.component.scss']
 })
-export class ResultsComponent implements OnInit {
+export class ResultsComponent implements OnInit, OnDestroy {
   public players?: Player[];
+  private sub: Subscription = new Subscription;
 
   constructor(private store: Store<State>, private router: Router, private socketService: SocketService) {
     store.select("players").subscribe((players) => {
@@ -24,11 +26,17 @@ export class ResultsComponent implements OnInit {
     if(!this.players || this.players.length === 0) {
       this.router.navigate([ROUTES.START]);
     }
+    this.sub = this.socketService.onPlayerLeft().subscribe((name) => this.store.dispatch(removePlayer({name})));
+
+  }
+
+  ngOnDestroy() {
+    this.sub.unsubscribe();
   }
 
   public newGame(): void {
-    this.store.dispatch(reset());
-    this.router.navigate([ROUTES.START]);
+    this.store.dispatch(softReset());
+    this.router.navigate([ROUTES.GAME]);
   }
 
 }

@@ -1,40 +1,12 @@
 <div class="set-question">
   <div class="create-container">
     <h3>Create a topic and a scale</h3>
-    <form class="form" [formGroup]="setQuestionForm">
-      <app-textarea [rows]="2"
-                    [maxlength]="200"
-                    placeholder="E.g. Name a superpower."
-                    required
-                    [formControlName]="'questionText'"
-                    [errorMessage]="setQuestionForm.controls.questionText.invalid && setQuestionForm.controls.questionText.touched ?
-       ((setQuestionForm.controls.questionText.errors?.['required'] && 'Please enter a topic') ||
-        (setQuestionForm.controls.questionText.errors?.['maxlength'] && 'Please enter a maximum of 200 characters')) : undefined"
-      ></app-textarea>
-      <div class="scale-form">
-        <span>From 1 = </span>
-        <app-input [formControlName]="'from'" [maxlength]="80" required
-                   [errorMessage]="setQuestionForm.controls.from.invalid && setQuestionForm.controls.from.touched ?
-       ((setQuestionForm.controls.from.errors?.['required'] && 'Please enter a description for the lowest value') ||
-        (setQuestionForm.controls.from.errors?.['maxlength'] && 'Please enter a maximum of 80 characters')) : undefined"></app-input>
-      </div>
-      <div class="scale-form">
-        <span>to {{ playersCount }} = </span>
-        <app-input [formControlName]="'to'" [maxlength]="80" required
-                   [errorMessage]="setQuestionForm.controls.to.invalid && setQuestionForm.controls.to.touched ?
-       ((setQuestionForm.controls.to.errors?.['required'] && 'Please enter a description for the highest value') ||
-        (setQuestionForm.controls.to.errors?.['maxlength'] && 'Please enter a maximum of 80 characters')) : undefined"
-        ></app-input>
-      </div>
-      <app-button (click)="setQuestion(setQuestionForm.controls.questionText.value || '',setQuestionForm.controls.from.value || '', setQuestionForm.controls.to.value || '', false)">
-        Submit
-      </app-button>
-    </form>
+    <app-own-question-form [playersCount]="playersCount" (validSumbit)="setQuestion($event)" ></app-own-question-form>
   </div>
   <div class="choose-container">
     <h3 class="divisor">Or choose from these topics</h3>
     <div class="suggestions">
-      <app-card *ngFor="let question of exampleQuestions" (click)="setQuestion(question.text, question.from, question.to, true)" [clickable]="true">
+      <app-card *ngFor="let question of exampleQuestions" (click)="setQuestion(question)" [clickable]="true">
           <h3>{{question.text}}</h3>
           <div>From <b>{{question.from}}</b> to <b>{{question.to}}</b></div>
       </app-card>

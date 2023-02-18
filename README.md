@@ -34,3 +34,4 @@ inside **server**: `npm install`
 ## prod
 
 **root**: `npm run build`, `npm run start` runs under http://localhost:3000
+

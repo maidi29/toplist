@@ -11,7 +11,8 @@ export interface State {
   players: Player[],
   activeRound?: Round,
   room?: string,
-  numberRounds?: number
+  numberRounds?: number,
+  allQuestions?: Question[]
 }
 
 export const initialState: State = {
@@ -32,8 +33,10 @@ export const addAnswer = createAction('Add Answer', props<{answer: Answer}>());
 export const setRoom = createAction('Set Room', props<{room: string}>());
 export const flipAnswer = createAction('Flip Answer', props<{playerName: string}>());
 export const setNumberRounds = createAction('Set Number Rounds', props<{number: number}>());
+export const setAllQuestions = createAction('Add Questions to all Questions', props<{questions: Question[]}>());
 export const replaceAnswers = createAction('Replace Answers', props<{answers: Answer[]}>());
-export const reset = createAction('Reset');
+export const resetAll = createAction('Reset All');
+export const softReset = createAction('Soft Reset');
 
 export const playersReducer = createReducer(
   initialState.players,
@@ -109,18 +112,31 @@ export const numberRoundsReducer = createReducer(
   on(setNumberRounds, (state, {number}) => number),
 );
 
+export const allQuestionsReducer = createReducer(
+  initialState.allQuestions,
+  on(setAllQuestions, (state, {questions}) => questions),
+);
+
 export const reducers: ActionReducerMap<State> = {
   players: playersReducer,
   activeRound: roundsReducer,
   room:  roomReducer,
-  numberRounds: numberRoundsReducer
+  numberRounds: numberRoundsReducer,
+  allQuestions: allQuestionsReducer
 };
 
 export const resetReducer = (reducer: ActionReducer<State>): ActionReducer<State> => {
   return (state, action) => {
-    if (action?.type === 'Reset') {
-      console.log("reset");
+    if (action?.type === 'Reset All') {
       return reducer(initialState, {type: INIT});
+    } else if (action?.type === "Soft Reset") {
+      return reducer({
+        players: state?.players || [],
+        room: state?.room,
+        numberRounds: undefined,
+        allQuestions: undefined,
+        activeRound: undefined
+      }, action)
     }
     return reducer(state, action);
   };

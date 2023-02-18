@@ -1,4 +1,11 @@
 <h2>Play together with your friends to find the order<br/> of your creative thoughts on a given or self-designed topic and scale.</h2>
+<div *ngIf="room" class="drop">
+  <div class="active-game" @fadeIn>
+    <div>You are in a game right now!</div>
+    <app-button (click)="returnToGame()">Return to game</app-button>
+    <app-button [secondary]="true" (click)="leaveGame()">Leave game</app-button>
+  </div>
+</div>
 <form [formGroup]="startForm" class="form">
   <div class="player-settings">
     <img *ngIf="avatar" [src]="avatar" (click)="showAvatarGenerator = true" class="avatar" alt="avatar"/>

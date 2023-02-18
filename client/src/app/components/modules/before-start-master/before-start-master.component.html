@@ -6,12 +6,67 @@
       <app-share *ngIf="roomId" [gameId]="roomId"></app-share>
     </div>
   </div>
-  <div>
-    Play <div class="number-runs"><app-input [(ngModel)]="numberRuns" [maxlength]="2"></app-input></div> full runs.
-  </div>
+  <hr/>
+  <form [formGroup]="questionModeForm" class="question-mode-form">
+      <div class="radio-container">
+        <input type="radio" id="default" name="questionMode" value="default"
+               formControlName="questionMode" class="radio" [ngClass]="{
+               'checked': questionModeForm.controls.questionMode.value === 'default'
+               }" >
+        <label for="default" class="label">
+          <div>Default:
+            Every player is captain <input maxlength="2" type="number" step="1" formControlName="numberRuns" class="number-runs"/>
+            times. They define a topic per round and guess the order of the answers.
+          </div>
+          <div class="error">
+            {{errorNumberRuns}}
+          </div>
+        </label>
+      </div>
+       <div class="radio-container">
+        <input type="radio" id="predefined" name="questionMode" value="predefined"
+               formControlName="questionMode" class="radio" [ngClass]="{
+               'checked': questionModeForm.controls.questionMode.value === 'predefined'
+               }" >
+        <label for="predefined" class="label">
+          <div>Create a pre-defined custom game where you set all topics now.
+            The role of the captain still changes through and they guess the order of the answers.</div>
+          <div class="predefined-info">
+            {{(allQuestions|| []).length}} {{(allQuestions|| []).length === 1 ? 'topic' : 'topics'}} defined
+            <button class="secondary"
+                    (click)="
+                    questionModeForm.controls.questionMode.setValue('predefined');
+                    openPredefinedModal = true;
+                    errorQuestions = '';
+            ">
+              {{(allQuestions || []).length <= 0 ? 'Add' : 'Change'}}
+            </button>
+          </div>
+          <div class="error">
+            {{errorQuestions}}
+          </div>
+        </label>
+      </div>
+  </form>
+  <hr/>
   <div class="container">
     <div>Has everyone joined?</div>
     <div *ngIf="(players?.length || 0) < 4">It's recommended to play with at least 4 players</div>
-    <app-button (click)="startNewRound()" [autoWidth]="true">Start!</app-button>
+    <app-button (click)="startNewRound()" [autoWidth]="true">Start</app-button>
+    <div class="start-info">with {{players?.length}} {{players?.length === 1 ? 'player' : 'players'}} and
+      <ng-container *ngIf="questionModeForm.controls.questionMode.value === 'default'">
+        {{questionModeForm.controls.numberRuns.value ?? 0}}
+        {{questionModeForm.controls.numberRuns.value == '1' ? 'run' : 'runs'}}
+        (= {{getNumberRounds()}} {{getNumberRounds() === 1 ? 'round' : 'rounds'}})
+      </ng-container>
+      <ng-container *ngIf="questionModeForm.controls.questionMode.value === 'predefined'">
+        {{(allQuestions|| []).length}} {{(allQuestions|| []).length === 1 ? 'topic' : 'topics'}}
+      </ng-container>
+    </div>
   </div>
 </div>
+<app-modal *ngIf="openPredefinedModal">
+ <app-predefine-questions [playersCount]="(players?.length ||0)+1"
+                          [allQuestions]="allQuestions"
+                          (close)="openPredefinedModal=false"></app-predefine-questions>
+</app-modal>

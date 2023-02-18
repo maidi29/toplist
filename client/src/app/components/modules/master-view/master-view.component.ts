@@ -1,15 +1,17 @@
-import { Component } from '@angular/core';
+import {Component, Input, OnChanges, SimpleChanges} from '@angular/core';
 import {
   setNewRound,
   State,
   updateMaster,
-  addAnswer, changeScore
+  addAnswer, changeScore, setQuestion
 } from "../../../reducers/reducers";
 import {Store} from "@ngrx/store";
 import {SocketService} from "../../../services/socket.service";
 import {Round} from "../../../model/round.model";
 import {Player} from "../../../model/player.model";
 import {shuffleArray} from "../../../util";
+import {Question} from "../../../constants/QUESTIONS";
+import {Observable} from "rxjs";
 
 export enum MasterViewState { setQuestion, thinkOfAnswer, waitForOthers, answersReveal, sorting, points}
 
@@ -18,52 +20,56 @@ export enum MasterViewState { setQuestion, thinkOfAnswer, waitForOthers, answers
   templateUrl: './master-view.component.html',
   styleUrls: ['./master-view.component.scss']
 })
-export class MasterViewComponent {
+export class MasterViewComponent implements OnChanges {
   public ViewState = MasterViewState;
-  public activeRound?: Round;
-  public players?: Player[];
-  public numberRounds?: number;
+  @Input() activeRound?: Round;
+  @Input() players?: Player[];
+  @Input() numberRounds?: number;
+  @Input() allQuestions?: Question[];
+  @Input() ownPlayer?: Player;
+
   public state: MasterViewState = MasterViewState.setQuestion;
   public sent = false;
-  public ownPlayer?: Player;
   public myValue?: number;
+  private orderSubmitted = false;
 
   constructor(private store: Store<State>, private socketService: SocketService) {
-    store.select("numberRounds").subscribe((number) => {
-      this.numberRounds = number;
-    });
-    store.select("players").subscribe((players) => {
-      this.players = players;
-      this.ownPlayer = players.find(({isSelf}) => !!isSelf);
-    });
-    store.select("activeRound").subscribe((activeRound) => {
-      if(this.activeRound?.index !== activeRound?.index) {
+  }
+
+  ngOnChanges(changes: SimpleChanges) {
+      if(changes['activeRound']?.previousValue?.index !== changes['activeRound']?.currentValue?.index) {
         this.sent = false;
         this.myValue = undefined;
+        this.orderSubmitted = false;
       }
-      if(!this.myValue && this.activeRound?.values && this.activeRound?.values.length > 0) {
-        this.myValue = (activeRound?.values?.findIndex(name => name===this.ownPlayer?.name) || 0) + 1;
+      if (!this.myValue && this.activeRound?.values && this.activeRound?.values.length > 0) {
+        this.myValue = (this.activeRound?.values?.findIndex(name => name === this.ownPlayer?.name) || 0) + 1;
       }
-      this.activeRound = activeRound;
-      const notAllHaveAnswered = this.players && activeRound?.answers && activeRound.answers.length < this.players.length;
-      const allAnswersFlipped = activeRound?.flippedAnswers?.size === this.players?.length;
-      if(!activeRound?.question) {
+      const notAllHaveAnswered = this.players && this.activeRound?.answers && this.activeRound.answers.length < this.players.length;
+      const allAnswersFlipped = this.activeRound?.flippedAnswers?.size === this.players?.length;
+      if(!this.activeRound?.question) {
         this.state = MasterViewState.setQuestion;
-      } else if(activeRound?.question && !this.sent) {
+      } else if(this.activeRound?.question && !this.sent) {
         this.state = MasterViewState.thinkOfAnswer;
       } else if(this.sent && notAllHaveAnswered) {
         this.state = MasterViewState.waitForOthers;
       } else if(!allAnswersFlipped) {
         this.state = MasterViewState.answersReveal;
-      } else if (allAnswersFlipped) {
+      } else if (allAnswersFlipped && !this.orderSubmitted) {
         this.state = MasterViewState.sorting;
+      } else if (this.orderSubmitted) {
+        this.state = MasterViewState.points;
       }
-    });
   }
 
   public passToNextMaster() {
+    let newPredefinedQuestion;
+    if(this.allQuestions && this.activeRound?.index && this.allQuestions.length > 0) {
+      newPredefinedQuestion = this.allQuestions[this.activeRound?.index];
+    }
     const newRound = {
-      values: shuffleArray(this.players?.map(({name}) => name) || [])
+      values: shuffleArray(this.players?.map(({name}) => name) || []),
+      ...newPredefinedQuestion && {question: newPredefinedQuestion}
     }
     this.store.dispatch(setNewRound({nRound: newRound}));
     this.socketService.setRound(newRound);
@@ -86,6 +92,7 @@ export class MasterViewComponent {
 
   public onSubmitOrder() {
     this.state = MasterViewState.points;
+    this.orderSubmitted = true;
     this.activeRound?.answers?.forEach((answer, index) => {
       if((answer.value === index+1) && (answer.playerName !== this.ownPlayer?.name)) {
         this.store.dispatch(changeScore({name: answer.playerName, value: 1}));

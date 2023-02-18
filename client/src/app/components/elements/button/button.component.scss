@@ -8,12 +8,12 @@ button {
   color: #fff;
   border-radius: 2rem;
   padding: 0 2rem;
-  transition: all 230ms ease-in-out;
   border: 2px solid transparent;
   width: 100%;
   font-size: 1.25rem;
   height: 3.5rem;
   line-height: 1;
+  transition: all 230ms ease-in-out;
   box-shadow: 0 3px 6px #00000066;
   font-weight: bold;
   font-family: theme.$fontFamily;
@@ -27,7 +27,7 @@ button {
   }
 
   &:not([disabled]):hover {
-    background-color: darken(theme.$colorTertiary, 5%);
+    background-color: darken(theme.$colorTertiary, 10);
   }
 
   &.auto-width {
@@ -35,11 +35,11 @@ button {
   }
 
   &.secondary {
-    background-color: white;
+    background-color: theme.$colorSecondary;
     color: theme.$colorTertiary;
     border: 2px solid theme.$colorTertiary;
     &:not([disabled]):hover {
-      background-color: darken(white, 5%);
+      background-color: darken(theme.$colorSecondary, 10);
     }
   }
 }
