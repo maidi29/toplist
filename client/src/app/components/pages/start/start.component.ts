@@ -1,24 +1,28 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import {SocketService} from "../../../services/socket.service";
 import {ActivatedRoute, Router} from "@angular/router";
 import {Store} from "@ngrx/store";
-import {addPlayers, setRoom, State} from "../../../reducers/reducers";
+import {addPlayers, resetAll, setRoom, State} from "../../../reducers/reducers";
 import {Player} from "../../../model/player.model";
 import {FormControl, FormGroup, Validators} from "@angular/forms";
 import {ROUTES} from "../../../app-routing.module";
 import {Subscription} from "rxjs";
+import {fadeIn} from "../../../util/animations";
 
 @Component({
   selector: 'app-start',
   templateUrl: './start.component.html',
-  styleUrls: ['./start.component.scss']
+  styleUrls: ['./start.component.scss'],
+  animations: [fadeIn]
 })
-export class StartComponent implements OnInit {
+export class StartComponent implements OnInit, OnDestroy {
   private player?: Player;
   public avatar?: string;
   public showAvatarGenerator: boolean = false;
   private joinRoomSub: Subscription = new Subscription();
   private createRoomSub: Subscription = new Subscription();
+  private ownPlayer?: Player;
+  public room?: string;
 
   public startForm = new FormGroup({
     name: new FormControl('', [Validators.required, Validators.maxLength(20)]),
@@ -30,6 +34,15 @@ export class StartComponent implements OnInit {
               private store: Store<State>,
               private route: ActivatedRoute,
   ) {
+    store.select("room").subscribe((room) => {
+      this.room = room;
+    });
+    store.select("players").subscribe((players) => {
+      this.ownPlayer = players.find(({isSelf}) => !!isSelf);
+      if(this.ownPlayer?.name) {
+        this.startForm.controls.name.setValue(this.ownPlayer?.name);
+      }
+    });
   }
 
   ngOnInit(): void {
@@ -99,5 +112,16 @@ export class StartComponent implements OnInit {
     this.socketService.onJoinRoomError().subscribe((error) => {
       this.startForm.get(error.controlName)?.setErrors({[error.error]: true})
     });
+  }
+
+  public returnToGame() {
+    this.router.navigate([ROUTES.GAME]);
+  }
+
+  public leaveGame() {
+    if(this.ownPlayer?.name) {
+      this.socketService.playerLeft(this.ownPlayer.name);
+    }
+    this.store.dispatch(resetAll());
   }
 }

@@ -14,9 +14,9 @@
                'checked': questionModeForm.controls.questionMode.value === 'default'
                }" >
         <label for="default" class="label">
-          <div>Default: Play
-            <input maxlength="2" type="number" step="1" formControlName="numberRuns" class="number-runs"/>
-            full runs where every captain defines a topic per round and guesses the order of the answers.
+          <div>Default:
+            Every player is captain <input maxlength="2" type="number" step="1" formControlName="numberRuns" class="number-runs"/>
+            times. They define a topic per round and guess the order of the answers.
           </div>
           <div class="error">
             {{errorNumberRuns}}
@@ -30,7 +30,7 @@
                }" >
         <label for="predefined" class="label">
           <div>Create a pre-defined custom game where you set all topics now.
-            The current captain guesses the order of the answers.</div>
+            The role of the captain still changes through and they guess the order of the answers.</div>
           <div class="predefined-info">
             {{(allQuestions|| []).length}} {{(allQuestions|| []).length === 1 ? 'topic' : 'topics'}} defined
             <button class="secondary"
@@ -53,9 +53,9 @@
     <div>Has everyone joined?</div>
     <div *ngIf="(players?.length || 0) < 4">It's recommended to play with at least 4 players</div>
     <app-button (click)="startNewRound()" [autoWidth]="true">Start</app-button>
-    <div>with {{players?.length}} {{players?.length === 1 ? 'player' : 'players'}} and
+    <div class="start-info">with {{players?.length}} {{players?.length === 1 ? 'player' : 'players'}} and
       <ng-container *ngIf="questionModeForm.controls.questionMode.value === 'default'">
-        {{questionModeForm.controls.numberRuns.value}}
+        {{questionModeForm.controls.numberRuns.value ?? 0}}
         {{questionModeForm.controls.numberRuns.value == '1' ? 'run' : 'runs'}}
         (= {{getNumberRounds()}} {{getNumberRounds() === 1 ? 'round' : 'rounds'}})
       </ng-container>

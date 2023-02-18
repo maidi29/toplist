@@ -24,13 +24,14 @@ export class PlayerViewComponent implements OnInit, OnDestroy, OnChanges {
   public myValue?: number;
   public answers?: Answer[];
   private submitSubscription: Subscription = new Subscription();
-
+  private orderSubmitted = false;
   constructor(private store: Store<State>, private socketService: SocketService) {
   }
 
   ngOnInit() {
     this.submitSubscription = this.socketService.onSubmitSorting().subscribe(()=> {
       this.state = ViewState.points;
+      this.orderSubmitted = true;
       this.answers?.forEach((answer, index) => {
         if((answer.value === index+1) && (answer.playerName !== this.master)) {
           this.store.dispatch(changeScore({name: answer.playerName, value: 1}));
@@ -49,6 +50,7 @@ export class PlayerViewComponent implements OnInit, OnDestroy, OnChanges {
       // reset on new round
       this.sent = false;
       this.myValue = undefined;
+      this.orderSubmitted = false;
     }
     if(!this.myValue && this.activeRound?.values && this.activeRound?.values.length > 0) {
       this.myValue = (this.activeRound?.values?.findIndex(name => name===this.ownPlayer?.name) || 0) + 1;
@@ -63,8 +65,10 @@ export class PlayerViewComponent implements OnInit, OnDestroy, OnChanges {
       this.state = ViewState.waitForOthers;
     } else if(!allAnswersFlipped) {
       this.state = ViewState.reveal;
-    } else if (allAnswersFlipped) {
+    } else if (allAnswersFlipped && !this.orderSubmitted) {
       this.state = ViewState.sorting;
+    } else if(this.orderSubmitted) {
+      this.state = ViewState.points;
     }
     if(allAnswersFlipped && this.activeRound?.answers) {
       // mutate original array for transition

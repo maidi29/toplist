@@ -31,6 +31,7 @@ export class MasterViewComponent implements OnChanges {
   public state: MasterViewState = MasterViewState.setQuestion;
   public sent = false;
   public myValue?: number;
+  private orderSubmitted = false;
 
   constructor(private store: Store<State>, private socketService: SocketService) {
   }
@@ -39,6 +40,7 @@ export class MasterViewComponent implements OnChanges {
       if(changes['activeRound']?.previousValue?.index !== changes['activeRound']?.currentValue?.index) {
         this.sent = false;
         this.myValue = undefined;
+        this.orderSubmitted = false;
       }
       if (!this.myValue && this.activeRound?.values && this.activeRound?.values.length > 0) {
         this.myValue = (this.activeRound?.values?.findIndex(name => name === this.ownPlayer?.name) || 0) + 1;
@@ -53,8 +55,10 @@ export class MasterViewComponent implements OnChanges {
         this.state = MasterViewState.waitForOthers;
       } else if(!allAnswersFlipped) {
         this.state = MasterViewState.answersReveal;
-      } else if (allAnswersFlipped) {
+      } else if (allAnswersFlipped && !this.orderSubmitted) {
         this.state = MasterViewState.sorting;
+      } else if (this.orderSubmitted) {
+        this.state = MasterViewState.points;
       }
   }
 
@@ -88,6 +92,7 @@ export class MasterViewComponent implements OnChanges {
 
   public onSubmitOrder() {
     this.state = MasterViewState.points;
+    this.orderSubmitted = true;
     this.activeRound?.answers?.forEach((answer, index) => {
       if((answer.value === index+1) && (answer.playerName !== this.ownPlayer?.name)) {
         this.store.dispatch(changeScore({name: answer.playerName, value: 1}));

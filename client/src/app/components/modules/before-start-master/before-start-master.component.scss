@@ -105,11 +105,15 @@
     transition: all 230ms ease-in-out;
     box-shadow: 0 3px 6px #00000066;
     &:hover {
-      background: darken(theme.$colorSecondary,5);
+      background: darken(theme.$colorSecondary,10);
     }
 }
 
 .error {
-  color: darken(theme.$colorTertiary,10);
+  color: theme.$colorFail;
+}
+
+.start-info {
+  color: theme.$colorTertiary;
 }
 

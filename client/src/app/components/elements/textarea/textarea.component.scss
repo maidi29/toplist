@@ -15,6 +15,6 @@
 
 .alert {
   margin-top: .5rem;
-  color: darken(theme.$colorTertiary,10);
+  color: theme.$colorFail;
   padding: 0 2rem;
 }
