@@ -22,7 +22,6 @@ export class TransitionGroupComponent {
 
       const animate = () => {
         items.forEach(this.applyTranslation);
-        console.log("animate", items);
         // @ts-ignore
         this['_forceReflow'] = document.body.offsetHeight; // force reflow to put everything in position
         this.items.forEach(this.runTransition.bind(this));

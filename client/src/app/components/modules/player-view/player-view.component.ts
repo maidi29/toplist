@@ -45,7 +45,7 @@ export class PlayerViewComponent implements OnInit, OnDestroy, OnChanges {
   }
 
   ngOnChanges(changes: SimpleChanges) {
-    if(changes['activeRound'].previousValue?.index !== changes['activeRound'].currentValue?.index) {
+    if(changes['activeRound']?.previousValue?.index !== changes['activeRound']?.currentValue?.index) {
       // reset on new round
       this.sent = false;
       this.myValue = undefined;

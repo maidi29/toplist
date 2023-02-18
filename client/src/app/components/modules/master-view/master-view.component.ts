@@ -36,7 +36,7 @@ export class MasterViewComponent implements OnChanges {
   }
 
   ngOnChanges(changes: SimpleChanges) {
-      if(changes['activeRound'].previousValue?.index !== changes['activeRound'].currentValue?.index) {
+      if(changes['activeRound']?.previousValue?.index !== changes['activeRound']?.currentValue?.index) {
         this.sent = false;
         this.myValue = undefined;
       }
