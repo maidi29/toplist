@@ -43,5 +43,5 @@
   margin-top: 2rem;
 }
 .footer, .footer a {
-  color: #666;
+  color: lighten(theme.$colorPrimary, 15);
 }
