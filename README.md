@@ -35,3 +35,5 @@ inside **server**: `npm install`
 
 **root**: `npm run build`, `npm run start` runs under http://localhost:3000
 
+## Todo:
+- ssr for socket.io: https://github.com/angular/universal/issues/846 
