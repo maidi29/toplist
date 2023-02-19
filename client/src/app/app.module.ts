@@ -87,7 +87,7 @@ export function playerFactory() {
     PredefineQuestionsComponent
   ],
   imports: [
-    BrowserModule,
+    BrowserModule.withServerTransition({ appId: 'serverApp' }),
     AppRoutingModule,
     SocketIoModule.forRoot(config),
     HttpClientModule,

@@ -58,4 +58,4 @@
     </p>
   </app-collapsible>
 </div>
-<app-avatar-generator [show]="showAvatarGenerator" (avatar)="updateAvatar($event)" (close)="showAvatarGenerator = false"></app-avatar-generator>
+<app-avatar-generator *ngIf="isBrowser" [show]="showAvatarGenerator" (avatar)="updateAvatar($event)" (close)="showAvatarGenerator = false"></app-avatar-generator>

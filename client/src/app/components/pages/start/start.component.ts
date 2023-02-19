@@ -1,4 +1,4 @@
-import {Component, OnDestroy, OnInit} from '@angular/core';
+import {Component, OnDestroy, OnInit, Inject, PLATFORM_ID } from '@angular/core';
 import {SocketService} from "../../../services/socket.service";
 import {ActivatedRoute, Router} from "@angular/router";
 import {Store} from "@ngrx/store";
@@ -8,6 +8,7 @@ import {FormControl, FormGroup, Validators} from "@angular/forms";
 import {ROUTES} from "../../../app-routing.module";
 import {Subscription} from "rxjs";
 import {fadeIn} from "../../../util/animations";
+import { isPlatformBrowser } from '@angular/common';
 
 @Component({
   selector: 'app-start',
@@ -23,6 +24,7 @@ export class StartComponent implements OnInit, OnDestroy {
   private createRoomSub: Subscription = new Subscription();
   private ownPlayer?: Player;
   public room?: string;
+  public isBrowser = isPlatformBrowser(this.platformId);
 
   public startForm = new FormGroup({
     name: new FormControl('', [Validators.required, Validators.maxLength(20)]),
@@ -33,6 +35,7 @@ export class StartComponent implements OnInit, OnDestroy {
               private router: Router,
               private store: Store<State>,
               private route: ActivatedRoute,
+              @Inject(PLATFORM_ID) private platformId: any
   ) {
     store.select("room").subscribe((room) => {
       this.room = room;

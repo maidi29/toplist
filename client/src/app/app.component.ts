@@ -1,6 +1,7 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, Inject, OnInit, PLATFORM_ID} from '@angular/core';
 import {resetAll, State} from "./reducers/reducers";
 import {Store} from "@ngrx/store";
+import { isPlatformBrowser } from '@angular/common';
 
 @Component({
   selector: 'app-root',
@@ -8,12 +9,17 @@ import {Store} from "@ngrx/store";
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent implements  OnInit {
-  constructor(private store: Store<State>) {
+
+  private isBrowser = isPlatformBrowser(this.platformId);
+
+  constructor(private store: Store<State>, @Inject(PLATFORM_ID) private platformId: any) {
   }
 
   ngOnInit() {
-    window.onbeforeunload = () => {
-      this.store.dispatch(resetAll());
+    if(this.isBrowser) {
+      window.onbeforeunload = () => {
+        this.store.dispatch(resetAll());
+      }
     }
   }
 }
