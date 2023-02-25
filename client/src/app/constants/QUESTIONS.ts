@@ -113,5 +113,15 @@ export const QUESTIONS: Question[] = [
     text: "You look through your partners' phone. What do you find there?",
     from: "happy together",
     to: "divorce now",
+  },
+  {
+    text: "You share your screen in a business meeting but select the wrong screen. What is there?",
+    from: "not embarrassing at all",
+    to: "extremely embarrassing",
+  },
+  {
+    text: "In a remote meeting, you say something and forget that you are not muted. What do you say and to whom?",
+    from: "not embarrassing at all",
+    to: "extremely embarrassing",
   }
   ];
