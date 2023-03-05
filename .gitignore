@@ -1,5 +1,10 @@
 .idea
 *.iml
-/server/node_modules/
 /client/node_modules/
 node_modules/
+.env
+.env.development.local
+.env.development
+.env.test.local
+.env.production.local
+.env.production

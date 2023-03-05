@@ -26,7 +26,7 @@ The game ends as soon as each player has been captain as many times as defined i
 
 inside **client**: `npm install`
 
-inside **server**: `npm install`
+inside **root**: `npm install`
 
 **root**: `npm run start:local` open under http://localhost:4200
 

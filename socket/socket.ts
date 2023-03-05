@@ -1,4 +1,4 @@
-import {SOCKET_EVENTS} from "../../shared/socketEvents";
+import {SOCKET_EVENTS} from "../shared/socketEvents";
 
 interface Player {
     name: string,

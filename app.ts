@@ -9,7 +9,7 @@ require('./socket/socket')(io)
 
 const app = express();
 
-const buildPath = path.join(__dirname, '../client/dist', 'client');
+const buildPath = path.join(__dirname, 'client/dist', 'client');
 app.set('views', buildPath);
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
