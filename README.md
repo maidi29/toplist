@@ -33,5 +33,5 @@ inside **root**: `npm install`
 
 ## prod
 
-**root**: `npm run build`, `npm run start` runs under http://localhost:3000
+**root**: `npm run build`, `npm run start` runs under http://localhost:8080
 
